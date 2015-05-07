@@ -28,11 +28,11 @@ class TestReaders < Test::Unit::TestCase
   end
 
   def test_initial_books_number
-    assert_equal 0, @reader.books_number
+    assert_equal 0, @reader.books_taken
   end
 
   def test_books_calculation
     10.times{@reader.take_book(@book)}
-    assert_equal 10, @reader.books_number
+    assert_equal 10, @reader.books_taken
   end
 end
