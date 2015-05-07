@@ -57,7 +57,7 @@
     {"title": "The Psychotechnic League", "author_id": 11, "id": 42}
   ],
   "readers": [
-    {"name": "JValentine Michael Smith", "id": 1},
+    {"name": "Valentine Michael Smith", "id": 1},
     {"name": "Mary Jane Lyle Smith", "id": 2},
     {"name": "Dr. Ward Smith", "id": 3},
     {"name": "Captain Michael Brant", "id": 4},
