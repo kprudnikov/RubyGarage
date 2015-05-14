@@ -1,13 +1,13 @@
 require_relative '../book'
 require_relative '../reader'
-require "json"
+require_relative '../author'
 
 describe Lib::Reader do
 
   before :each do
     @author = Lib::Author.new('AuthorName', "Biography", 2)
     @book = Lib::Book.new('BookTitle', @author, 2)
-    reader_data = JSON.parse('{"name": "ReaderName", "email": "email", "city": "city", "address": "address", "id": 1}')
+    reader_data = {"name" => "ReaderName", "email" => "email", "city" => "city", "address" => "address", "id" => 1}
     @reader = Lib::Reader.new(reader_data)
   end
 
@@ -16,7 +16,7 @@ describe Lib::Reader do
   end
 
   it "should apply default values" do
-    reader_data = JSON.parse('{"name": "Name"}')
+    reader_data = {"name"=> "Name"}
     reader = Lib::Reader.new(reader_data)
 
     expect('Name').to eql(reader.name)

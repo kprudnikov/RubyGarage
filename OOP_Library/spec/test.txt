@@ -1,0 +1,10 @@
+
+Lib::Book
+[32m  should be an instance of a Book[0m
+[32m  should raise TypeError if arguments have wrong types[0m
+[32m  should count how many times a book was taken[0m
+[32m  should display author and title when converted to string[0m
+
+Finished in 0.01001 seconds (files took 0.1701 seconds to load)
+[32m4 examples, 0 failures[0m
+
