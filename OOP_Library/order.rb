@@ -1,17 +1,20 @@
 require_relative "modules"
 
-class Order
-  include Jsonable
+module Lib
 
-  attr_reader :book, :reader
+  class Order
+    include Jsonable
 
-  def initialize(book, reader, date=0)
-    @book = book
-    @reader = reader
-    @date = date || Time.now
-  end
+    attr_reader :book, :reader
 
-  def date
-    @date.strftime("%d.%M.%Y")
+    def initialize(book, reader, date=0)
+      @book = book
+      @reader = reader
+      @date = date || Time.now
+    end
+
+    def date
+      @date.strftime("%d.%M.%Y")
+    end
   end
 end

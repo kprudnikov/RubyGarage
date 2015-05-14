@@ -1,30 +1,34 @@
 require_relative "modules"
 
-class Reader
-  include Jsonable
+module Lib
 
-  attr_accessor :name, :email, :city, :address, :house, :books, :books_taken
-  attr_reader :id
+  class Reader
+    include Jsonable
 
-  def initialize(data)
-    @name = data["name"]
-    @email = data["email"] || ""
-    @city = data["city"] || ""
-    @address = data["address"] || ""
-    @house = data["house"] || 0
-    @books_taken = 0
-    @books = []
-    @id = data["id"] || self.object_id
-  end
+    attr_accessor :name, :email, :city, :address, :house, :books, :books_taken
+    attr_reader :id
 
-  def to_s
-    @name
-  end
+    def initialize(data)
+      @name = data["name"]
+      @email = data["email"] || ""
+      @city = data["city"] || ""
+      @address = data["address"] || ""
+      @house = data["house"] || 0
+      @books_taken = 0
+      @books = []
+      @id = data["id"] || self.object_id
+    end
 
-  def take_book(book)
-    raise TypeError, 'Should be a Book' unless book.is_a? Book
-    @books << book
-    @books_taken += 1
+    def to_s
+      @name
+    end
+
+    def take_book(book)
+      raise TypeError, 'Should be a Book' unless book.is_a? Book
+      @books << book
+      @books_taken += 1
+    end
+
   end
 
 end

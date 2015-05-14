@@ -5,72 +5,109 @@ require_relative "book"
 require_relative "reader"
 require_relative "order"
 
-rawdata = JSON.parse(File.read('data/library.json'))
-authors = []
-books = []
-readers = []
-orders = []
+module Lib
+  class Library
 
-rawdata["authors"].each do |author|
-  authors << Author.new(author["name"], author["biography"], author["id"])
-end
+    def initialize(file='')
+      @books = []
+      @authors = []
+      @readers = []
+      @orders = []
 
-rawdata["books"].each do |book|
-  author = authors.find{|au| au.id == book['author_id']}
-  if author
-    books << Book.new(book["title"], author, book["id"])
+      load(file) if file != ''
+
+    end
+
+    def load(path="data/library.json")
+      rawdata = JSON.parse(File.read(path))
+      load_authors(rawdata["authors"])
+      load_books(rawdata["books"])
+      load_readers(rawdata["readers"])
+      load_orders(rawdata["orders"])
+    end
+
+    def frequent_reader(book)
+      if(book.is_a? Book)
+        return @readers.sort_by{|reader| reader.books_taken}[-1]
+      elsif book.is_a? String
+        sought_book = find_book_by_title(book)
+        frequent_reader(sought_book) if sought_book
+      else
+        raise TypeError, "book should be a Book or a String"
+      end
+    end
+
+    def popular_book
+      @books.sort_by{|book| book.times_taken}[-1]
+    end
+
+    def who_takes_popular_book
+      readers = []
+      @readers.each do |reader|
+        if reader.books.include?(popular_book)
+          readers << reader
+        end
+      end
+    end
+
+    def find_book_by_title(name)
+      @books.find{|book| book.title == title}
+    end
+
+    def add(el)
+      case el
+      when el.is_a? Book
+        @books << el
+      when el.is_a? Author
+        @authors << el
+      when el.is_a? Reader
+        @readers << el
+      when el.is_a? Order
+        @books << el.book if !@books.include(el.book)
+        @readers << el.reader if !@readers.include(el.reader)
+        @orders << el
+      else
+        raise TypeError, "wrong type. Only Book, Reader, Author or Order can be added"
+      end
+    end
+
+  private
+
+    def load_books(books)
+      books.each do |book|
+        author = @authors.find{|au| au.id == book['author_id']}
+        if author
+          @books << Book.new(book["title"], author, book["id"])
+        end
+      end
+    end
+
+    def load_authors(authors)
+      authors.each do |author|
+        @authors << Author.new(author["name"], author["biography"], author["id"])
+      end
+    end
+
+    def load_readers(readers)
+      readers.each do |reader|
+        @readers << Reader.new(reader)
+      end
+    end
+
+    def load_orders(orders)
+      orders.each do |order|
+        reader = @readers.find{|rd| rd.id == order["reader_id"]}
+        book = @books.find{|bk| bk.id == order["book_id"]}
+        reader.take_book(book)
+        book.take
+        date = DateTime.parse(order["order_date"])
+        @orders << Order.new(book, reader, date)
+      end
+    end
   end
 end
 
-rawdata["readers"].each do |reader|
-  readers << Reader.new(reader)
-end
-
-rawdata["orders"].each do |order|
-  reader = readers.find{|rd| rd.id == order["reader_id"]}
-  book = books.find{|bk| bk.id == order["book_id"]}
-  reader.take_book(book)
-  book.take
-  date = DateTime.parse(order["order_date"])
-  orders << Order.new(book, reader, date)
-end
-
-eager_reader = readers.sort_by{|reader| reader.books_taken}[-1]
-popular_book = books.sort_by{|book| book.times_taken}[-1]
-
-puts
-puts
-puts "The most eager reader is #{eager_reader}, he took #{eager_reader.books_taken} books."
-puts "The most popular book is #{popular_book}. It was taken #{popular_book.times_taken} times by these gorgeous people:"
-readers.each do |reader|
-  if reader.books.include?(popular_book)
-    puts reader
-  end
-end
-puts
-puts
-
-authors_string  = ""
-readers_string = ""
-books_string = ""
-orders_string = ""
-
-authors.each do |author|
-  authors_string << author.stringify
-end
-
-readers.each do |reader|
-  readers_string << reader.stringify
-end
-
-books.each do |book|
-  books_string << book.stringify
-end
-
-orders.each do |order|
-  orders_string << order.stringify
-end
-
-file = File.new("data/saved_data.txt", "w")
-file.write(authors_string + readers_string + books_string + orders_string)
-file.close
+lib = Lib::Library.new("data/library.json")
+puts lib.popular_book
+puts lib.who_takes_popular_book
+puts lib.frequent_reader(lib.popular_book)
