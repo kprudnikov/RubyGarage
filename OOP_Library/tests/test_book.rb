@@ -22,7 +22,7 @@ class TestBooks < Test::Unit::TestCase
     10.times do
       @book.take
     end
-    assert_equal 10, @book.taken
+    assert_equal 10, @book.times_taken
   end
 
   def test_to_s

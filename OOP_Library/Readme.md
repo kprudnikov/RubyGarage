@@ -1,6 +1,7 @@
-Make sure you installed json gem:
+Make sure you installed json gem and test-unit:
 <pre>
   gem install json
+  gem install test-unit
 </pre>
 
 To start library app:
