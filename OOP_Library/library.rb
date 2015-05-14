@@ -56,13 +56,13 @@ module Lib
 
     def add(el)
       case el
-      when el.is_a? Book
+      when el.is_a?(Book)
         @books << el
-      when el.is_a? Author
+      when el.is_a?(Author)
         @authors << el
-      when el.is_a? Reader
+      when el.is_a?(Reader)
         @readers << el
-      when el.is_a? Order
+      when el.is_a?(Order)
         @books << el.book if !@books.include(el.book)
         @readers << el.reader if !@readers.include(el.reader)
         @orders << el
