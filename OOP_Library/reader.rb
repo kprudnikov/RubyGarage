@@ -28,7 +28,12 @@ module Lib
       @books << book
       @books_taken += 1
     end
-
   end
 
+end
+
+class Object
+  def reader?
+    self.is_a? Lib::Reader
+  end
 end

@@ -11,7 +11,7 @@ describe Lib::Reader do
     @reader = Lib::Reader.new(reader_data)
   end
 
-  it "should convert to string correctly" do
+  it "should convert to string correctly", focus: true do
     expect(@reader.to_s).to eql('ReaderName')
   end
 
@@ -33,5 +33,9 @@ describe Lib::Reader do
   it "should count number of books taken" do
     10.times{@reader.take_book(@book)}
     expect(@reader.books_taken).to eql(10)
+  end
+
+  it "should be reader" do
+    expect(@reader).to be_reader
   end
 end
