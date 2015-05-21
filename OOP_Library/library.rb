@@ -18,7 +18,7 @@ module Lib
 
     end
 
-    def load(path="data/library.json")
+    def load(path="/data/library.json")
       rawdata = JSON.parse(File.read(path))
       load_authors(rawdata["authors"])
       load_books(rawdata["books"])
