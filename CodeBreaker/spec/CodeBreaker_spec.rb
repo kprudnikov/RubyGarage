@@ -56,9 +56,9 @@ describe CodeBreaker::Game do
         expect(@game.check('1234')).to be_an_instance_of(String)
       end
 
-      it "contains only '+', '-' or an empty string" 
-      # do
-      # end
+      it "contains only '+', '-' or an empty string"  do
+        expect(@game.check("1234")).to match(/[+-]*/)
+      end
 
       it "is not longer than 4 symbols" do
         expect(@game.check("1234").length).to be <= 4
@@ -71,6 +71,29 @@ describe CodeBreaker::Game do
 
       it "should not raise error when input is valid" do
         expect{@game.check("1111")}.to_not raise_error
+      end
+    end
+
+    context "input validation", focus: true do
+      it "should return valid results" do
+        @game.start
+        @game.send(:set_code, "1234")
+
+        expect(@game.check("1111")).to eq("+")
+        expect(@game.check("5651")).to eq("-")
+        expect(@game.check("5631")).to eq("+-")
+        expect(@game.check("4321")).to eq("----")
+        expect(@game.check("3346")).to eq("--")
+        expect(@game.check("6666")).to eq("")
+
+        @game.send(:set_code, "5555")
+        expect(@game.check("6566")).to eq("+")
+
+        @game.send(:set_code, "5455")
+        expect(@game.check("6564")).to eq("--")
+        expect(@game.check("5555")).to eq("+++")
+        expect(@game.check("4555")).to eq("++--")
+        expect(@game.check("5455")).to eq("++++")
       end
     end
   end
