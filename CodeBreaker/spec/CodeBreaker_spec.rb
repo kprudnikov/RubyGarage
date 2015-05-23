@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CodeBreaker::Game do
 
   before :all do
-    @game = CodeBreaker::Game.new
+    @game = CodeBreaker::Game.new(6, 4, 999)
   end
 
   it 'has a version number' do
@@ -22,6 +22,13 @@ describe CodeBreaker::Game do
     it "generates new code with each launch" do
       new_code = CodeBreaker::Game.new.start
       expect(@code).not_to eq(new_code)
+    end
+
+    it "resets hint" do
+      expect(@game.hint).to be_truthy
+      expect(@game.hint).to be_falsy
+      @game.start
+      expect(@game.hint).to be_truthy
     end
   end
 
@@ -71,6 +78,11 @@ describe CodeBreaker::Game do
 
       it "should not raise error when input is valid" do
         expect{@game.check("1111")}.to_not raise_error
+      end
+
+      it "counts number of attempts" do
+        attempts_number = @game.attempts_number
+        expect { @game.check("1111") }.to change{@game.attempts_number}.from(attempts_number).to(attempts_number+1)
       end
     end
 
