@@ -1,4 +1,4 @@
-require_relative "CodeBreaker"
+require_relative "Game"
 
 module CodeBreaker
   class Interface
@@ -32,7 +32,7 @@ module CodeBreaker
           get_name &block
         end
         begin
-          path = File.expand_path("../../data/result.txt", __FILE__)
+          path = File.expand_path("../../../data/result.txt", __FILE__)
           File.open(path, 'a') do |f|
             f.write("#{@username} #{won_or_lost} the game.\n")
           end
