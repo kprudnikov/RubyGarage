@@ -37,7 +37,7 @@ module CodeBreaker
 
       result = ""
 
-      (0...4).each do |index|
+      (0...@code_length).each do |index|
         if(temp_code[index] == input[index])
           result << "+"
           input[index] = "_"
@@ -48,8 +48,8 @@ module CodeBreaker
       # for some reason it doesn't update variable while in each_char loop
       # let's try with simple iteration
 
-      (0...4).each do |index_out|
-        (0...4).each do |index_in|
+      (0...@code_length).each do |index_out|
+        (0...@code_length).each do |index_in|
           if temp_code[index_out] == input[index_in] && input[index_in] != "_"
             temp_code[index_out] = "_"
             input[index_in] = "_"
@@ -63,7 +63,7 @@ module CodeBreaker
 
     def hint
       if (!@hint_is_given)
-        index = rand(0...4)
+        index = rand(0...@code_length)
         @hint_is_given = true
         return @code[index]
       else

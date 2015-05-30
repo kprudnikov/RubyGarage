@@ -9,60 +9,110 @@ module CodeBreaker
       @game = Game.new
       @game.start
       @game_is_finished = false
+      @username = ''
     end
 
-    def restart_game
-
+    def restart_game &block
+      yield "Want to play again? y/n"
+      answer = gets.chomp
+      if(answer == "y")
+        yield "Let's play again! Rules are the same!"
+        @game.start
+        @username = ''
+        return
+      end
+      exit &block
     end
 
-    def save_result
-
+    def save_result(won_or_lost, &block)
+      yield "Want to save your result? y/n"
+      answer = gets.chomp
+      if (answer.downcase == "y")
+        if @username == ''
+          get_name &block
+        end
+        begin
+          path = File.expand_path("../../data/result.txt", __FILE__)
+          File.open(path, 'a') do |f|
+            f.write("#{@username} #{won_or_lost} the game.\n")
+          end
+          yield "Your result is safe now, don't worry.\n\n"
+        rescue
+          yield "Something went wrong, we couldn't save your result."
+        end
+      end
     end
 
-    def get_help
-      "Ok, here's the deal: you enter 4 digits, 1 to 6.\nYou'll get number of '+' and '-' after each attempt. \n'+' indicates an exact match: one of the numbers in the guess is the same as one of the numbers in the secret code and in the same position.\n'-' indicates a number match: one of the numbers in the guess is the same as one of the numbers in the secret code but in a different position.\nYou have 6 shots.\nYou can ask for 'hint' any moment, but only once during the game."
+    def get_name (&block)
+      while @username == ""
+        name_message &block
+        @username = gets.chomp
+      end
+    end
+
+    def help_message &block
+      yield "Ok, here's the deal: you enter 4 digits, 1 to 6.\nYou'll get number of '+' and '-' after each attempt. \n'+' indicates an exact match: one of the numbers in the guess is the same as one of the numbers in the secret code and in the same position.\n'-' indicates a number match: one of the numbers in the guess is the same as one of the numbers in the secret code but in a different position.\nYou have 6 shots.\nYou can ask for 'hint' any moment, but only once during the game."
     end
 
     def process_input(input, &block)
       input = input.downcase
       if(input == "help")
-        get_help
+        help_message(&block)
       elsif input == "hint"
-        get_hint
+        get_hint(&block)
       elsif input == "exit"
         exit(&block)
+      elsif input == "set"
+        @game.send(:set_code, '1234')
       else
         begin
           result = @game.check(input)
+          if result
+            yield result
+            if (result == "++++")
+              success_message &block
+              save_result("won", &block)
+              restart_game &block
+            end
+          else
+            fail_message &block
+            save_result("lost", &block)
+            restart_game &block
+          end
         rescue
-          "I thought rules were clear! 4 digits, 1 to 6"
+          yield "I thought rules were clear! 4 digits, 1 to 6"
         end
       end
     end
 
-    def get_hint
+    def get_hint &block
       hint = @game.hint
-      if hint
-        hint
-      else
-        "Sorry, buddy, you've already used your hint"
-      end
+      hint = "Sorry, buddy, you've already used your hint" if !hint
+      yield hint
     end
 
-    def success_message
-      "You won!"
+    def success_message &block
+      yield "You won!"
     end
 
-    def fail_message
-      "You lost. C’est la vie."
+    def fail_message &block
+      yield "You lost. C’est la vie."
     end
 
     def greeting_message
-      "Howdy stranger! I want to play a game with you. You know the rules.\nAsk for 'help' if you don't."
+      yield "Howdy stranger! I want to play a game with you. You know the rules.\nAsk for 'help' if you don't."
+    end
+
+    def restart_message
+      yield "Want to restart the game?"
+    end
+
+    def name_message
+      yield "What's your name, cowboy?"
     end
 
     def exit(&block)
-      yield "Exit message"
+      yield "See ya!"
       abort
     end
   end
