@@ -1,3 +1,3 @@
 require "./lib/run"
 
-run RackTest.new
+run RequestHandler

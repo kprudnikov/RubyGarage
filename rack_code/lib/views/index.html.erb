@@ -3,8 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
+  <style>
+    main {
+      padding-top: 50px;
+    }
+  </style>
 </head>
 <body>
-Test
+<main class="row columns small-centered">
+  <h2>Howdy stranger! Let's play a little game!</h2>
+  <form action="" id="request" class="row collapse">
+    <div class="medium-6 small-12 columns">
+      <label for="input" class="show-for-sr">Enter your guess here</label>
+      <input type="text" id="input" placeholder="Enter your guess here" class="">
+    </div>
+    <div class="medium-2 small-4 columns">
+      <div class="row collapse">
+        <div class="small-12 columns">
+          <input type="submit" value="Send" id="submit" class="button postfix">
+        </div>
+      </div>
+    </div>
+    <div class="small-12 columns">
+      <a href="/hint" class="tiny secondary button" id="hint">Hint</a>
+      <a href="#" class="tiny secondary button" data-reveal-id="help-modal">Help</a>
+    </div>
+
+  </form>
+  <div id="response">
+    <p></p>
+  </div>
+</main>
+
+<div id="help-modal" class="reveal-modal" data-reveal aria-labelledby="Help modal" aria-hidden="true" role="dialog">
+  <h2>Ok, here's the deal:</h2>
+  <p>You enter 4 digits, 1 to 6.</p>
+  <p>You'll get number of '+' and '-' after each attempt.</p>
+  <p>'+' indicates an exact match: one of the numbers in the guess is the same as one of the numbers in the secret code and in the same position.</p>
+  <p>'-' indicates a number match: one of the numbers in the guess is the same as one of the numbers in the secret code but in a different position.</p>
+  <p>You have 6 shots. You can ask for hint any moment, but only once during the game.</p>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation/foundation.reveal.min.js"></script>
+<script>
+$(document).foundation();
+var inputField = $("#input");
+
+function updateElement($el, text) {
+  $el.before("<p>"+text+"</p>")
+}
+
+function sendInput(input){
+  var input = input || inputField.val()
+
+  if(input.length > 0){
+    if(input === "help") {
+      $("#help-modal").foundation('reveal', 'open');
+    } else {
+      $.get(input, function(data){
+        updateElement($("#response").find('p:first-child'), data)
+      });
+    }
+  }
+  inputField.val("");
+}
+
+$("#request").on("submit", function () {
+  sendInput();
+  return false;
+});
+
+$("#hint").on('click', function () {
+  sendInput('hint');
+  return false;
+})
+
+</script>
 </body>
 </html>
