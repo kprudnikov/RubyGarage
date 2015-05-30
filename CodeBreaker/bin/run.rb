@@ -1,4 +1,4 @@
-require_relative "../lib/CodeBreaker/Interface"
+require_relative "../lib/CodeBreaker"
 
 game = CodeBreaker::Interface.new
 game.greeting_message {|message| puts message}

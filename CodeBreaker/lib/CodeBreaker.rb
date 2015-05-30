@@ -1,3 +1,3 @@
 require_relative "CodeBreaker/version"
-require_relative "CodeBreaker/Game"
-require_relative "CodeBreaker/Interface"
+require_relative "CodeBreaker/game"
+require_relative "CodeBreaker/interface"

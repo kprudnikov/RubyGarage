@@ -1,5 +1,3 @@
-require_relative "version"
-
 module CodeBreaker
 
   class Game

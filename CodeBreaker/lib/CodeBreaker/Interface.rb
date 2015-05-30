@@ -1,5 +1,3 @@
-require_relative "Game"
-
 module CodeBreaker
   class Interface
 
