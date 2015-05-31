@@ -10,14 +10,24 @@ module CodeBreaker
       @username = ''
     end
 
-    def restart_game &block
+    def restart_game (&block)
+    # def restart_game &block
+      # yield "Want to play again? y/n"
+      # answer = gets.chomp
+      # if(answer == "y")
+        @game.start
+        yield "Let's play again! Rules are the same!"
+        # @username = ''
+        # return
+      # end
+      # exit &block
+    end
+
+    def prompt_restart &block
       yield "Want to play again? y/n"
       answer = gets.chomp
       if(answer == "y")
-        yield "Let's play again! Rules are the same!"
-        @game.start
-        @username = ''
-        return
+        restart_game &block
       end
       exit &block
     end
@@ -60,24 +70,32 @@ module CodeBreaker
         get_hint(&block)
       elsif input == "exit"
         exit(&block)
-      elsif input == "set"
-        @game.send(:set_code, '1234')
+      # elsif input == "set"
+      #   @game.send(:set_code, '1234')
       else
         begin
           result = @game.check(input)
+          # puts "#####################################"
+          # puts input
+          # puts result
+          # puts "#####################################"
           if result
             yield result
-            if (result == "++++")
-              success_message &block
-              save_result("won", &block)
-              restart_game &block
-            end
           else
-            fail_message &block
-            save_result("lost", &block)
-            restart_game &block
+            yield "Game over"
           end
-        rescue
+            # if (result == "++++")
+            #   success_message &block
+            #   save_result("won", &block)
+            #   restart_game &block
+            # end
+          # else
+          #   fail_message &block
+          #   save_result("lost", &block)
+          #   restart_game &block
+          # end
+        rescue Exception => e
+          puts e
           yield "I thought rules were clear! 4 digits, 1 to 6"
         end
       end

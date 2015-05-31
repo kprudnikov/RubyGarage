@@ -8,10 +8,10 @@ module CodeBreaker
       @max_code_value = max_code_value
       @code_length = code_length
       @max_attempts_number = max_attempts_number
-      @code = ""
     end
 
     def start 
+      @code = ""
       @code_length.times do
         @code << rand(1..@max_code_value).to_s
       end
@@ -29,9 +29,6 @@ module CodeBreaker
       # raise(ArgumentError, "argument should contain only numbers 1 to #{@max_code_value}") if !input.match(Regex.new("[1-#{@max_code_value}]{#{@code_length}}"))
 
       @attempts_number += 1
-      if @attempts_number > @max_attempts_number
-        return false
-      end
 
       result = ""
 
@@ -55,6 +52,13 @@ module CodeBreaker
           end
         end
       end
+
+      if @attempts_number >= @max_attempts_number && result != "++++"
+      # if @attempts_number >= @max_attempts_number
+        return
+      end
+      puts "FROM GAME CHECK"
+      puts result
 
       result
     end

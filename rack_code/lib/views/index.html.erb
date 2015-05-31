@@ -9,9 +9,34 @@
     main {
       padding-top: 50px;
     }
+
+    #octocat {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 9;
+    }
+
+    #octocat img {
+      /*height: 40px;*/
+      opacity: 0.3;
+      -webkit-transition-duration: 0.3s;
+      -o-transition-duration: 0.3s;
+      transition-duration: 0.3s;
+    }
+
+    #octocat img:hover {
+      opacity: 1;
+      -webkit-transition: opacity ease;
+      -o-transition: opacity ease;
+      transition: opacity ease;
+    }
   </style>
 </head>
 <body>
+<a href="https://github.com/kprudnikov/RubyGarage/tree/master/rack_code" id="octocat">
+  <img src="/lib/static/img/octocat.ico" alt="octocat">
+</a>
 <main class="row columns small-centered">
   <h2>Howdy stranger! Let's play a little game!</h2>
   <form action="" id="request" class="row collapse">
@@ -29,6 +54,7 @@
     <div class="small-12 columns">
       <a href="/hint" class="tiny secondary button" id="hint">Hint</a>
       <a href="#" class="tiny secondary button" data-reveal-id="help-modal">Help</a>
+      <a href="/new-game" class="tiny alert button" id="new-game">Reset game</a>
     </div>
 
   </form>
@@ -50,6 +76,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation/foundation.reveal.min.js"></script>
+
 <script>
 $(document).foundation();
 var inputField = $("#input");
@@ -66,12 +93,20 @@ function sendInput(input){
       $("#help-modal").foundation('reveal', 'open');
     } else {
       $.get(input, function(data){
-        updateElement($("#response").find('p:first-child'), data)
+        updateElement($("#response").find('p:first-child'), input + ": " + data);
       });
     }
   }
   inputField.val("");
 }
+
+$("#new-game").on("click", function () {
+  $.get("/new-game", function (data) {
+    updateElement($("#response").find('p:first-child'), data)    
+    // $("#new-game").fadeOut();
+  });
+  return false;
+})
 
 $("#request").on("submit", function () {
   sendInput();
