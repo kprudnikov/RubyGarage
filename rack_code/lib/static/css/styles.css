@@ -1,0 +1,39 @@
+    main {
+      padding-top: 50px;
+    }
+
+    #octocat {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 9;
+      opacity: 0.3;
+      -webkit-transition-duration: 0.3s;
+      -o-transition-duration: 0.3s;
+      transition-duration: 0.3s;
+    }
+
+    #octocat:hover {
+      opacity: 1;
+      -webkit-transition: opacity ease;
+      -o-transition: opacity ease;
+      transition: opacity ease;
+    }
+
+    #clear {
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      -webkit-transition: opacity 0.3s ease;
+      -o-transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease;
+    }
+
+    #response {
+      position: relative;
+    }
+
+    #response:hover #clear {
+      opacity: 1;
+    }

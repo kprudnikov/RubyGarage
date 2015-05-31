@@ -6,32 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="lib/static/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
-  <style>
-    main {
-      padding-top: 50px;
-    }
-
-    #octocat {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 9;
-    }
-
-    #octocat img {
-      opacity: 0.3;
-      -webkit-transition-duration: 0.3s;
-      -o-transition-duration: 0.3s;
-      transition-duration: 0.3s;
-    }
-
-    #octocat img:hover {
-      opacity: 1;
-      -webkit-transition: opacity ease;
-      -o-transition: opacity ease;
-      transition: opacity ease;
-    }
-  </style>
+  <link rel="stylesheet" href="/lib/static/css/styles.css">
 </head>
 <body>
 <a href="https://github.com/kprudnikov/RubyGarage/tree/master/rack_code" id="octocat">
@@ -60,6 +35,7 @@
   </form>
   <div id="response">
     <p></p>
+    <button id="clear" class="tiny alert">&#10006;</button>
   </div>
 </main>
 
@@ -81,8 +57,8 @@
 $(document).foundation();
 var inputField = $("#input");
 
-function updateElement($el, text) {
-  $el.before("<p>"+text+"</p>")
+function addToElement($el, text) {
+  $el.prepend("<p>"+text+"</p>")
 }
 
 function sendInput(input){
@@ -93,7 +69,7 @@ function sendInput(input){
       $("#help-modal").foundation('reveal', 'open');
     } else {
       $.get(input, function(data){
-        updateElement($("#response").find('p:first-child'), input + ": " + data);
+        addToElement($("#response"), input + ": " + data);
       });
     }
   }
@@ -102,7 +78,7 @@ function sendInput(input){
 
 $("#new-game").on("click", function () {
   $.get("/new-game", function (data) {
-    updateElement($("#response").find('p:first-child'), data)    
+    addToElement($("#response"), data)    
   });
   return false;
 })
@@ -115,7 +91,11 @@ $("#request").on("submit", function () {
 $("#hint").on('click', function () {
   sendInput('hint');
   return false;
-})
+});
+
+$("#clear").on('click', function () {
+  $("#response").find('p').remove();
+});
 
 </script>
 </body>
