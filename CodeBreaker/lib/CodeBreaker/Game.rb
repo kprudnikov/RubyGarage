@@ -54,11 +54,8 @@ module CodeBreaker
       end
 
       if @attempts_number >= @max_attempts_number && result != "++++"
-      # if @attempts_number >= @max_attempts_number
-        return
+        return 
       end
-      puts "FROM GAME CHECK"
-      puts result
 
       result
     end
