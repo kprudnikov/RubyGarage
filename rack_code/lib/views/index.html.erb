@@ -18,7 +18,6 @@
     }
 
     #octocat img {
-      /*height: 40px;*/
       opacity: 0.3;
       -webkit-transition-duration: 0.3s;
       -o-transition-duration: 0.3s;
@@ -103,7 +102,6 @@ function sendInput(input){
 $("#new-game").on("click", function () {
   $.get("/new-game", function (data) {
     updateElement($("#response").find('p:first-child'), data)    
-    // $("#new-game").fadeOut();
   });
   return false;
 })
