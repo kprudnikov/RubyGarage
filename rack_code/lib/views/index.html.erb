@@ -17,7 +17,7 @@
   <form action="" id="request" class="row collapse">
     <div class="medium-6 small-12 columns">
       <label for="input" class="show-for-sr">Enter your guess here</label>
-      <input type="text" id="input" placeholder="Enter your guess here" class="">
+      <input type="text" id="input" placeholder="Enter your guess here" title="Are you feeling lucky?">
     </div>
     <div class="medium-2 small-4 columns">
       <div class="row collapse">
@@ -27,15 +27,14 @@
       </div>
     </div>
     <div class="small-12 columns">
-      <a href="/hint" class="tiny secondary button" id="hint">Hint</a>
-      <a href="#" class="tiny secondary button" data-reveal-id="help-modal">Help</a>
+      <a href="/hint" class="tiny secondary button" id="hint" title="Hint">Hint</a>
+      <a href="#" class="tiny secondary button" data-reveal-id="help-modal" title="Help">Help</a>
       <a href="/new-game" class="tiny alert button" id="new-game">Reset game</a>
     </div>
-
   </form>
   <div id="response">
     <p></p>
-    <button id="clear" class="tiny alert">&#10006;</button>
+    <button id="clear" class="tiny alert" title="Clear game history">&#10006;</button>
   </div>
 </main>
 
