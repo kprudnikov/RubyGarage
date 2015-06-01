@@ -1,5 +1,5 @@
 # CodeBreaker
 
-run lib/run.rb
+run bin/run.rb
 
 type "help" for help.
