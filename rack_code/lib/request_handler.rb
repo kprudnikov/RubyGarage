@@ -1,5 +1,5 @@
 require "erb"
-require_relative "../lib/CodeBreaker"
+require_relative "code_breaker/CodeBreaker"
 
 class RequestHandler
 
