@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150705120400) do
+ActiveRecord::Schema.define(version: 20150706154753) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.string   "address"
+    t.string   "zipcode"
+    t.string   "city"
+    t.string   "phone"
+    t.integer  "country_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "addresses", ["country_id"], name: "index_addresses_on_country_id"
 
   create_table "authors", force: :cascade do |t|
     t.string   "firstname"
@@ -41,6 +53,12 @@ ActiveRecord::Schema.define(version: 20150705120400) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "countries", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "credit_cards", force: :cascade do |t|
     t.string   "number"
     t.string   "cvv"
@@ -63,6 +81,18 @@ ActiveRecord::Schema.define(version: 20150705120400) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "order_items", force: :cascade do |t|
+    t.float    "price"
+    t.integer  "quantity"
+    t.integer  "book_id"
+    t.integer  "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "order_items", ["book_id"], name: "index_order_items_on_book_id"
+  add_index "order_items", ["order_id"], name: "index_order_items_on_order_id"
 
   create_table "orders", force: :cascade do |t|
     t.float    "total_price"
