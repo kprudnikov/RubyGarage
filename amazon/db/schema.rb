@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706154753) do
+ActiveRecord::Schema.define(version: 20150712115234) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address"
@@ -97,13 +97,13 @@ ActiveRecord::Schema.define(version: 20150706154753) do
   create_table "orders", force: :cascade do |t|
     t.float    "total_price"
     t.datetime "completed_date"
-    t.string   "state"
+    t.string   "state",            default: "in progress"
     t.integer  "customer_id"
     t.integer  "credit_card_id"
     t.integer  "billing_address"
     t.integer  "shipping_address"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"
