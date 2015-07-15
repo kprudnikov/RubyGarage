@@ -1,0 +1,6 @@
+<h1>Countries</h1>
+<select>
+  <% @countries.each do |country| %>
+    <option value="<%= country.id %>"><%= country.name %></option>
+  <% end %>
+</select>

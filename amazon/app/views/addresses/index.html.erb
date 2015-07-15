@@ -1,0 +1,23 @@
+<ul>
+  <% @addresses.each do |address| %>
+    <li>
+      <% if address.country %>
+      <p>
+        <strong>Country: </strong>
+        <%= address.country.name %>
+      </p>
+      <% end %>
+      <p>
+        <strong>City: </strong>
+        <%= address.city %>
+      </p>
+      <p><strong>Zipcode: </strong>
+        <%= address.zipcode %>
+      </p>
+      <p><strong>Address: </strong>
+        <%= address.address %>
+      </p>
+      <br>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,16 @@
+<h1>New address</h1>
+
+<%= form_for(@address, url: {action: "create"}) do |f| %>
+  <%= f.text_field :address, placeholder: "City address" %>
+  <%= f.text_field :zipcode, placeholder: "Zipcode" %>
+  <%= f.text_field :city, placeholder: "City" %>
+  <%= f.text_field :phone, placeholder: "Phone" %>
+
+  <select name="address[country_id]" id="">
+    <% @countries.each do |country| %>
+      <option value="<%= country.id %>"><%= country.name %></option>
+    <% end %>
+  </select>
+  <%= f.submit %>
+<% end %>
+
