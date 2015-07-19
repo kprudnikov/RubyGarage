@@ -21,3 +21,9 @@
 
 en:
   hello: "Hello world"
+  in_stock: "in stock"
+  out_of_stock: "out of stock"
+  currency: "USD"
+  menu:
+    home: "home"
+    shop: 'shop'

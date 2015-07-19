@@ -3,12 +3,28 @@
 <head>
   <title>Amazon</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css">
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="grid-frame">
 
-<%= yield %>
+  <main class="clearfix">
+    <div class="columns">
+      <header>
+        <!-- <strong>The bookstore</strong> -->
+        <%= link_to t("menu.home"), '/', class: "secondary button small" %>
+        <span> | </span>
+        <%= link_to t("menu.shop"), books_path, class: "secondary button small" %>
+        <%= link_to orders_path do %>
+          <i class="fi-shopping-cart large"></i>
+        <% end %>
+      </header>
+      <%= yield %>
+
+    </div>
+  </main>
 
 </body>
 </html>

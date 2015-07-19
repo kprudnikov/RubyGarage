@@ -1,0 +1,18 @@
+<h2><%= @book.title %></h2>
+<p>
+  <%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author) %>
+</p>
+<p class="small">
+  <%= t "currency" %><%= @book.price.to_s %>
+</p>
+<% if @book.in_stock > 0 %>
+  <p><%= t "in_stock" %></p>
+<% else %>
+  <p><%= t "out_of_stock" %></p>
+<% end %>
+
+<% @book.ratings.each do |rating| %>
+  <p><%= rating.rating %> by <%= rating.customer.firstname %></p>
+  <p><%= rating.review %></p>
+  <hr>
+<% end %>
