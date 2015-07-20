@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Amazon</title>
+  <meta name="viewport" content="intial-scale=1, width=device-width">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css">
@@ -9,16 +10,27 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="grid-frame">
-
   <main class="clearfix">
     <div class="columns">
       <header>
+
+        <% if customer_signed_in? %>
+          <small>Signed in as <%= current_customer.firstname %></small>
+          <br>
+        <% end %>
         <!-- <strong>The bookstore</strong> -->
         <%= link_to t("menu.home"), '/', class: "secondary button small" %>
-        <span> | </span>
+        <!-- <span> | </span> -->
         <%= link_to t("menu.shop"), books_path, class: "secondary button small" %>
-        <%= link_to orders_path do %>
-          <i class="fi-shopping-cart large"></i>
+        <% if customer_signed_in? %>
+          <%= link_to orders_path , class: "secondary button small" do %>
+            <i class="fi-shopping-cart large"></i>
+          <% end %>
+          <%= link_to "Log out", destroy_customer_session_path, :method => :delete, class: "secondary button small" %>
+          <%= link_to "Settings",  edit_customer_registration_path %>
+        <% else %>
+          <%= link_to "Log in", new_customer_session_path, class: "secondary button small" %>
+          <%= link_to "Sign up", new_customer_registration_path, class: "secondary button small" %>
         <% end %>
       </header>
       <%= yield %>

@@ -4,8 +4,7 @@ class CustomersController < ApplicationController
     @customers = Customer.all
   end
 
-  def login
-    @customer = Customer.last
-  end
-
+  # def show
+    # @customer = Customer.find(params[:id])
+  # end
 end

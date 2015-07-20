@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # devise_for :customers
+  devise_for :customers, :controllers => { registrations: 'registrations' }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -7,7 +9,7 @@ Rails.application.routes.draw do
   root 'books#index'
 
   resources :addresses, only: [:create, :new, :index]
-  resources :credit_cards, :customers
+  resources :credit_cards
   resources :books, only: [:index, :show]
   resources :authors, only: :show
   resources :orders, only: [:show, :index]
