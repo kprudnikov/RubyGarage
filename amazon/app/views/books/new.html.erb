@@ -1,0 +1,16 @@
+<%= form_for @book do |f| %>
+  <%= f.text_field :title, placeholder: "Title" %>
+
+  <%= f.number_field :price, placeholder: "Price", step: 0.01 %>
+  <%= f.number_field :in_stock, placeholder: "In stock" %>
+  <div class="row small-collapse">
+    <div class="medium-6 small-12 columns" style="margin-bottom: 1rem">
+      <%= f.select "author_id", @formatted_authors %>
+    </div>
+    <div class="medium-6 small-12 columns" style="margin-bottom: 1rem">
+      <%= f.select "category_id", @formatted_categories %>
+    </div>
+  </div>
+  <%= f.text_area :description, placeholder: "Description", style: "margin-bottom: 1rem" %>
+  <%= f.submit "Submit", class: "button" %>
+<% end %>

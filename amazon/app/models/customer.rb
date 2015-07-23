@@ -11,11 +11,7 @@ class Customer < ActiveRecord::Base
   # validates :email, uniqueness: true
   # validates :password, length: {minimum: 8}
 
-  def in_progress
+  def order_in_progress
     self.orders.find{|order| order.state == "in progress"}
-  end
-
-  def all_in_progress
-    self.orders.select{|order| order.state == "in progress"}
   end
 end

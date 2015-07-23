@@ -1,0 +1,6 @@
+<ul>
+  <% @order.books.each do |book| %>
+  <li><%= book.title %></li>
+  <% end %>
+</ul>
+<p>Total: <span><%= @order.total_price %></span></p>

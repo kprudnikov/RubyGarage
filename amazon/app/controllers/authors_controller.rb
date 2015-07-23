@@ -1,19 +1,16 @@
 class AuthorsController < ApplicationController
-
-  # def index
-  #   @customers = Customer.all
-  # end
-
-  # def login
-  #   @customer = Customer.last
-  # end
+  before_action :set_author, only: :show
 
   def show
-    @author = Author.find(params[:id])
+  end
+
+  def edit
   end
 
 private
 
-  # def author_
+  def set_author
+    @author = Author.find(params[:id])
+  end
 
 end

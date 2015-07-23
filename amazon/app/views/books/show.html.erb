@@ -2,17 +2,31 @@
 <p>
   <%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author) %>
 </p>
-<p class="small">
+<strong>
   <%= t "currency" %><%= @book.price.to_s %>
-</p>
+</strong>
 <% if @book.in_stock > 0 %>
-  <p><%= t "in_stock" %></p>
+  <small class="success label"><%= t "in_stock" %></small>
 <% else %>
-  <p><%= t "out_of_stock" %></p>
+  <small class="alert label"><%= t "out_of_stock" %></small>
 <% end %>
 
-<% @book.ratings.each do |rating| %>
-  <p><%= rating.rating %> by <%= rating.customer.firstname %></p>
-  <p><%= rating.review %></p>
-  <hr>
+<div class="description panel">
+  <p>
+    <%= @book.description %>
+  </p>
+</div>
+
+
+<% if @book.ratings.length > 0 %>
+  <p>
+    Average rating:
+    <%= @book.ratings.inject(0){|sum, rating| sum+rating.rating}/@book.ratings.length %>
+  </p>
+  <% @book.ratings.each do |rating| %>
+    <div class="panel callout">
+      <p><strong><%= rating.rating %></strong> by <%= rating.customer.firstname %></p>
+      <p><%= rating.review %></p>
+    </div>
+  <% end %>
 <% end %>

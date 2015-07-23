@@ -10,4 +10,8 @@ class Order < ActiveRecord::Base
     self.order_items << OrderItem.new(book: book)
   end
 
+  def self.last_in_progress(customer)
+    customer.orders.find_by(state: "in progress")
+  end
+
 end

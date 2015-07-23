@@ -1,0 +1,13 @@
+<% if (@order) %>
+<ul>
+  <% @order.books.each do |book| %>
+  <li>
+    <%= link_to book.title, book_path(book) %>
+  </li>
+  <!-- <li><%= book.title %></li> -->
+  <% end %>
+</ul>
+<p>Total: <span><%= @order.total_price %></span></p>
+<% else %>
+  <p>No orders yet</p>
+<% end %>
