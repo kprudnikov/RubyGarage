@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :addresses, only: [:create, :new, :index]
   resources :credit_cards
   resources :books
-  resources :authors, only: :show
+  resources :authors, only: [:show, :new, :create]
   resources :orders, only: [:show, :index]
   # get "/customers/:id/last_order_in_progress" => "customers#last_order_in_progress", as: "last_order"
   # Example of regular route:

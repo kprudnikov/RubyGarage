@@ -1,3 +1,4 @@
+<div class="columns">
 <%= form_for @book do |f| %>
   <%= f.label :title, class: "show-for-sr" %>
   <%= f.text_field :title, placeholder: "Title" %>
@@ -20,3 +21,4 @@
   <%= f.text_area :description, placeholder: "Description", style: "margin-bottom: 1rem" %>
   <%= f.submit "Submit", class: "button" %>
 <% end %>
+</div>

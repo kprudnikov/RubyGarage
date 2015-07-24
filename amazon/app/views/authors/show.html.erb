@@ -1,10 +1,12 @@
-<h2>
-  <%= @author.firstname %>
-  <%= @author.lastname %>
-</h2>
+<div class="columns">
+  <h2>
+    <%= @author.firstname %>
+    <%= @author.lastname %>
+  </h2>
 
-<ul>
-  <% @author.books.each do |book| %>
-  <li><%= link_to book.title, book_path(book) %></li>
-  <% end %>
-</ul>
+  <ul>
+    <% @author.books.each do |book| %>
+    <li><%= link_to book.title, book_path(book) %></li>
+    <% end %>
+  </ul>
+</div>

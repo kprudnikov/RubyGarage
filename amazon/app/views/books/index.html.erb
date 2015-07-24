@@ -1,12 +1,18 @@
-<%= link_to "Add book", new_book_path %>
-<ul class="books-list">
+<% if customer_signed_in? %>
+  <menu class="columns">
+    <%= link_to "Add book", new_book_path %> <span style="color: #008CBA"> | </span>
+    <%= link_to "Add author", new_author_path %>
+  </menu>
+<% end %>
+
+<ul class="books-list large-collapse">
   <% @books.each do |book| %>
-    <li>
-      <%= link_to book_path(book) do %>
-        <h2>
+    <li class="small-12 medium-6 large-4 columns">
+      <h2>
+        <%= link_to book_path(book) do %>
           <%= book.title %>
-        </h2>
-      <% end %>
+        <% end %>
+      </h2>
       <%= link_to book.author.firstname + " " + book.author.lastname, author_path(book.author) %>
     </li>
   <% end %>
