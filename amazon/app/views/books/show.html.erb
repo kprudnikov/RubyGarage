@@ -1,23 +1,35 @@
 <div class="columns">
-  <h2><%= @book.title %></h2>
-  <p>
-    <%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author) %>
-  </p>
-  <strong>
-    <%= t "currency" %><%= @book.price.to_s %>
-  </strong>
-  <% if @book.in_stock > 0 %>
-    <small class="success label"><%= t "in_stock" %></small>
-  <% else %>
-    <small class="alert label"><%= t "out_of_stock" %></small>
-  <% end %>
+<div class="row panel small-collapse">
 
-  <div class="description panel">
-    <p>
-      <%= @book.description %>
-    </p>
+  <div class="medium-8 columns">
+    <h2><%= @book.title %></h2>
+    <p><%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author) %></p>
   </div>
-
+  <div class="row">
+    <div class="medium-4 columns">
+      <div class="price">
+        <p>
+          <strong>
+            <%= t "currency" %><%= @book.price.to_s %>
+          </strong>
+        </p>
+        <% if @book.in_stock > 0 %>
+          <small class="success label"><%= t "in_stock" %></small>
+        <% else %>
+          <small class="alert label"><%= t "out_of_stock" %></small>
+        <% end %>
+      </div>
+      <div class="label">
+        <%= @book.category.title %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 description">
+      <%= @book.description %>
+    </div>
+  </div>
+</div>
 
   <% if @book.ratings.length > 0 %>
     <p>

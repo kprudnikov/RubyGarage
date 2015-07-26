@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   belongs_to :customer
   has_many :order_items
   has_many :books, through: :order_items
-  validates :total_price, :completed_date, :state, presence: true
+  validates :customer, presence: true
 
   def add_book(book)
     self.order_items << OrderItem.new(book: book)

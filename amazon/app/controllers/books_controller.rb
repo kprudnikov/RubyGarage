@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :authenticate_customer!, only: [:new, :create]
+  # before_action :authenticate_customer!, only: [:new, :create]
 
   def index
     @books = Book.all

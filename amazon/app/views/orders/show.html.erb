@@ -1,13 +1,17 @@
-<% if (@order) %>
-<ul>
-  <% @order.books.each do |book| %>
-  <li>
-    <%= link_to book.title, book_path(book) %>
-  </li>
-  <!-- <li><%= book.title %></li> -->
+<div class="columns">
+  <% if @order.books.length > 0 %>
+  <ul>
+    <% @order.books.each do |book| %>
+    <li>
+      <span>
+        <%= link_to book.title, book_path(book) %>
+      </span>
+      <span class="alert tiny button">&times;</span>
+    </li>
+    <% end %>
+  </ul>
+  <p>Total: <span><%= @order.total_price %></span></p>
+  <% else %>
+    <h2>Order is empty</h2>
   <% end %>
-</ul>
-<p>Total: <span><%= @order.total_price %></span></p>
-<% else %>
-  <p>No orders yet</p>
-<% end %>
+</div>

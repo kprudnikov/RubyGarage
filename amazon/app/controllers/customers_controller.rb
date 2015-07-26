@@ -10,6 +10,8 @@ class CustomersController < ApplicationController
   #   # @customer = current_customer
   #   # @customer = Customer.find(1)
   #   # puts
-  #   @order = Order.last_in_progress(current_customer)
+  #   @order = Order.last_in_progress(current_customer) || Order.new
   # end
+
+
 end

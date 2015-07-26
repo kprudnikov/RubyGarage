@@ -1,19 +1,31 @@
 <% if customer_signed_in? %>
   <menu class="columns">
     <%= link_to "Add book", new_book_path %> <span style="color: #008CBA"> | </span>
-    <%= link_to "Add author", new_author_path %>
+    <%= link_to "Add author", new_author_path %> <span style="color: #008CBA"> | </span>
+    <%= link_to "Add category", new_category_path %>
   </menu>
 <% end %>
 
 <ul class="books-list large-collapse">
-  <% @books.each do |book| %>
-    <li class="small-12 medium-6 large-4 columns">
+  <% @books.each.with_index do |book, num| %>
+    <% if num == @books.length - 1 %>
+      <li class="small-12 medium-6 large-4 columns end">
+    <% else %>
+      <li class="small-12 medium-6 large-4 columns">
+    <% end %>
       <h2>
         <%= link_to book_path(book) do %>
           <%= book.title %>
         <% end %>
       </h2>
       <%= link_to book.author.firstname + " " + book.author.lastname, author_path(book.author) %>
+      <% if customer_signed_in? && current_customer.order_in_progress %>
+        <%= form_for current_customer.order_in_progress do |f| %>
+          <input name="book_id" type="hidden" value="<%= book.id %>">
+          <%= f.submit "Add to cart", class: "tiny button" %>
+        <% end %>
+      <% end %>
+      <hr>
     </li>
   <% end %>
 </ul>
