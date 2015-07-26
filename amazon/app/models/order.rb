@@ -6,12 +6,16 @@ class Order < ActiveRecord::Base
   has_many :books, through: :order_items
   validates :customer, presence: true
 
-  def add_book(book)
-    self.order_items << OrderItem.new(book: book)
+  def add_book(params)
+    self.order_items << OrderItem.new(params)
   end
 
   def self.last_in_progress(customer)
     customer.orders.find_by(state: "in progress")
   end
 
+
+  def get_total_price
+    self.books.inject(0){|sum, book| sum+book.price }
+  end
 end

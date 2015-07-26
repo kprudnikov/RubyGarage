@@ -1,17 +1,19 @@
 <div class="columns">
   <% if @order.books.length > 0 %>
   <ul>
-    <% @order.books.each do |book| %>
+    <% @order.order_items.each do |item| %>
     <li>
       <span>
-        <%= link_to book.title, book_path(book) %>
+        <%= link_to item.book.title, book_path(item.book) %>
       </span>
+      <span class=""><%= item.quantity %></span>
+      <!-- <input type="text" value="<%= item.quantity %>"> -->
       <span class="alert tiny button">&times;</span>
     </li>
     <% end %>
   </ul>
-  <p>Total: <span><%= @order.total_price %></span></p>
+  <p>Total: <span><%= t(:currency) %></span> <span><%= @order.get_total_price %></span></p>
   <% else %>
-    <h2>Order is empty</h2>
+    <h2>Cart is empty</h2>
   <% end %>
 </div>

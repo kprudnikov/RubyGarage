@@ -12,13 +12,19 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-    @order.add_book(Book.find(params[:book_id]))
+    @order.add_book(order_params)
     if @order.save
       flash[:success] = "Book added"
     else
       flash[:alert] = "Error"
     end
     redirect_to root_path
+  end
+
+private
+
+  def order_params
+    params.permit([:book_id, :quantity])
   end
 
 end

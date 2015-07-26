@@ -4,5 +4,18 @@
 
   li {
 
+    h3 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      a {
+        white-space: nowrap;
+      }
+    }
+
+    .add-to-cart {
+      margin-bottom: 0;
+    }
   }
+
 }

@@ -13,16 +13,18 @@
     <% else %>
       <li class="small-12 medium-6 large-4 columns">
     <% end %>
-      <h2>
-        <%= link_to book_path(book) do %>
+      <h3>
+        <%= link_to book_path(book), title: book.title do %>
           <%= book.title %>
         <% end %>
-      </h2>
-      <%= link_to book.author.firstname + " " + book.author.lastname, author_path(book.author) %>
-      <% if customer_signed_in? && current_customer.order_in_progress %>
+      </h3>
+      <p>
+        <%= link_to book.author.firstname + " " + book.author.lastname, author_path(book.author) %>
+      </p>
+      <% if customer_signed_in? %>
         <%= form_for current_customer.order_in_progress do |f| %>
           <input name="book_id" type="hidden" value="<%= book.id %>">
-          <%= f.submit "Add to cart", class: "tiny button" %>
+          <%= f.submit "Add to cart", class: "small button add-to-cart" %>
         <% end %>
       <% end %>
       <hr>
