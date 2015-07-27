@@ -1,5 +1,6 @@
 class AuthorsController < ApplicationController
   before_action :set_author, only: :show
+  before_action :authenticate_customer!, only: [:new, :create]
 
   def show
   end

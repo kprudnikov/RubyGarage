@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   before_action :authenticate_customer!
 
   def index
-    @orders = Order.all
+    @orders = current_customer.orders
   end
 
   def show
@@ -12,11 +12,15 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-    @order.add_book(order_params)
-    if @order.save
-      flash[:success] = "Book added"
+    if Book.find(params[:book_id]).in_stock?
+      @order.add_book(order_params)
+      if @order.save
+        flash[:success] = "Book added"
+      else
+        flash[:alert] = "Error"
+      end
     else
-      flash[:alert] = "Error"
+      flash[:alert] = "Book is out of stock"
     end
     redirect_to root_path
   end

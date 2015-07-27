@@ -14,8 +14,8 @@ class Order < ActiveRecord::Base
     customer.orders.find_by(state: "in progress")
   end
 
-
   def get_total_price
-    self.books.inject(0){|sum, book| sum+book.price }
+    self.order_items.inject(0){|sum, item| sum + item.book.price * item.quantity}
   end
+
 end

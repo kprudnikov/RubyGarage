@@ -19,6 +19,7 @@
         <% end %>
         <nav>
           <%= link_to t("menu.home"), root_path, class: "secondary button small" %>
+          <%= link_to t(:browse_by_categories), categories_path, class: "small secondary button" %>
           <% if customer_signed_in? %>
               <%= link_to order_path(current_customer.order_in_progress) , class: "secondary button small" do %>
                 <i class="fi-shopping-cart large"></i>

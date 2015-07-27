@@ -8,4 +8,8 @@ class Book < ActiveRecord::Base
   def self.most_popular
     Rating.all.sort_by{|rating| rating.rating}.last.book
   end
+
+  def in_stock?
+    self.in_stock > 0
+  end
 end

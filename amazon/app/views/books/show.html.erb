@@ -13,7 +13,7 @@
             <%= t "currency" %><%= @book.price.to_s %>
           </strong>
         </p>
-        <% if @book.in_stock > 0 %>
+        <% if @book.in_stock? %>
           <small class="success label"><%= t "in_stock" %></small>
         <% else %>
           <small class="alert label"><%= t "out_of_stock" %></small>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="medium-3 columns">
-      <% if customer_signed_in? %>
+      <% if customer_signed_in? && @book.in_stock? %>
         <%= form_for current_customer.order_in_progress do |f| %>
           <input name="quantity" type="text" value="1">
           <input name="book_id" type="hidden" value="<%= @book.id %>">

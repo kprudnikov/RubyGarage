@@ -22,9 +22,13 @@
         <%= link_to book.author.firstname + " " + book.author.lastname, author_path(book.author) %>
       </p>
       <% if customer_signed_in? %>
-        <%= form_for current_customer.order_in_progress do |f| %>
-          <input name="book_id" type="hidden" value="<%= book.id %>">
-          <%= f.submit "Add to cart", class: "small button add-to-cart" %>
+        <% if book.in_stock? %>
+          <%= form_for current_customer.order_in_progress do |f| %>
+            <input name="book_id" type="hidden" value="<%= book.id %>">
+            <%= f.submit "Add to cart", class: "tiny button add-to-cart" %>
+          <% end %>
+        <% else %>
+          <div class="tiny alert add-to-cart button"><%= t(:out_of_stock) %></div>
         <% end %>
       <% end %>
       <hr>

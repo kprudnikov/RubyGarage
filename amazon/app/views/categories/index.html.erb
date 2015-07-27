@@ -1,0 +1,9 @@
+<div class="columns">
+  <ul>
+  <% @categories.each do |category| %>
+    <li>
+      <%= link_to category.title, category_path(category) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
