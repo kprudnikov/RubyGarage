@@ -24,6 +24,7 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.find(params[:id])
+    @order_item = OrderItem.new
     @books = @category.books
     render template: "books/index"
   end

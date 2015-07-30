@@ -10,33 +10,33 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="grid-frame">
-  <main class="clearfix">
-      <header class="columns">
-
+  <div class="main-container row">
+    <header class="small-12 columns">
+      <% if customer_signed_in? %>
+        <small>Signed in as <%= current_customer.firstname %></small>
+        <br>
+      <% end %>
+      <nav>
+        <%= link_to t("menu.home"), root_path, class: "secondary button small" %>
         <% if customer_signed_in? %>
-          <small>Signed in as <%= current_customer.firstname %></small>
-          <br>
+            <%= link_to order_path(current_customer.order_in_progress) , class: "secondary button small" do %>
+              <i class="fi-shopping-cart large"></i>
+              <span>: <%= current_customer.order_in_progress.books.length %></span>
+            <% end %>
+          <%= link_to "Log out", destroy_customer_session_path, :method => :delete, class: "secondary button small" %>
+          <%= link_to "Settings",  edit_customer_registration_path %>
+        <% else %>
+          <%= link_to "Log in", new_customer_session_path, class: "secondary button small" %>
+          <%= link_to "Sign up", new_customer_registration_path, class: "secondary button small" %>
         <% end %>
-        <nav>
-          <%= link_to t("menu.home"), root_path, class: "secondary button small" %>
-          <%= link_to t(:browse_by_categories), categories_path, class: "small secondary button" %>
-          <% if customer_signed_in? %>
-              <%= link_to order_path(current_customer.order_in_progress) , class: "secondary button small" do %>
-                <i class="fi-shopping-cart large"></i>
-                <span>: <%= current_customer.order_in_progress.books.length %></span>
-              <% end %>
-            <%= link_to "Log out", destroy_customer_session_path, :method => :delete, class: "secondary button small" %>
-            <%= link_to "Settings",  edit_customer_registration_path %>
-          <% else %>
-            <%= link_to "Log in", new_customer_session_path, class: "secondary button small" %>
-            <%= link_to "Sign up", new_customer_registration_path, class: "secondary button small" %>
-          <% end %>
-        </nav>
-      </header>
-      <% flash.each do |name, msg| %>
-        <%= content_tag :div, msg, class: name+" label columns" %>
-      <% end -%>
-      <%= yield %>
-  </main>
+      </nav>
+    </header>
+    <main class="clearfix">
+        <% flash.each do |name, msg| %>
+          <%= content_tag :div, msg, class: name+" label columns" %>
+        <% end -%>
+        <%= yield %>
+    </main>
+  </div>
 </body>
 </html>

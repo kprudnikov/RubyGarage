@@ -15,14 +15,18 @@
 /*= require foundation
  */
 
-
-main {
-  max-width: 1024px;
+.main-container {
+  // max-width: 1200px;
   min-height: 100%;
   margin: 0 auto;
   background-color: #fff;
   -webkit-box-shadow:  0 0 3px 0 #999;
   box-shadow:  0 0 3px 0 #999;
+}
+
+main {
+  // max-width: 1024px;
+  min-height: 100%;
 }
 
 body {

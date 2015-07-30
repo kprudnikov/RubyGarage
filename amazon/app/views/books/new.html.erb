@@ -2,7 +2,7 @@
 <%= form_for @book do |f| %>
   <%= f.label :title, class: "show-for-sr" %>
   <%= f.text_field :title, placeholder: "Title" %>
-  <div class="row small-collapse">
+  <div class="row collapse">
     <div class="medium-6 small-12 columns">
       <%= f.label :price, class: "show-for-sr" %>
       <%= f.number_field :price, placeholder: "Price", step: 0.01 %>
@@ -12,7 +12,7 @@
       <%= f.number_field :in_stock, placeholder: "In stock" %>
     </div>
   </div>
-  <div class="row small-collapse">
+  <div class="row collapse">
     <div class="medium-6 small-12 columns" style="margin-bottom: 1rem">
       <%= f.label :author_id, class: "show-for-sr" %>
       <%= f.select "author_id", @formatted_authors %>

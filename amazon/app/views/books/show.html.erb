@@ -1,56 +1,66 @@
 <div class="columns">
-<div class="row panel small-collapse">
-
-  <div class="row small-collapse">
-    <div class="medium-7 columns">
-      <h2><%= @book.title %></h2>
-      <%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author) %>
-    </div>
-    <div class="medium-2 columns">
-      <div class="price">
-        <p>
-          <strong>
-            <%= t "currency" %><%= @book.price.to_s %>
-          </strong>
-        </p>
-        <% if @book.in_stock? %>
+  <div class="panel">
+    <div class="row collapse">
+      <div class="medium-7 columns">
+        <h2><%= @book.title %></h2>
+        <%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author) %>
+      </div>
+      <div class="medium-2 columns">
+        <div class="price">
+          <p>
+            <strong>
+              <%= t "currency" %><%= @book.price.to_s %>
+            </strong>
+          </p>
+          <% if @book.in_stock? %>
           <small class="success label"><%= t "in_stock" %></small>
-        <% else %>
+          <% else %>
           <small class="alert label"><%= t "out_of_stock" %></small>
-        <% end %>
+          <% end %>
+        </div>
+        <div class="label">
+          <%= @book.category.title %>
+        </div>
       </div>
-      <div class="label">
-        <%= @book.category.title %>
-      </div>
-    </div>
-    <div class="medium-3 columns">
-      <% if customer_signed_in? && @book.in_stock? %>
+      <div class="medium-3 columns">
+        <% if customer_signed_in? && @book.in_stock? %>
         <%= form_for current_customer.order_in_progress do |f| %>
-          <input name="quantity" type="text" value="1">
-          <input name="book_id" type="hidden" value="<%= @book.id %>">
-          <%= f.submit "Add to cart", class: "small button add-to-cart" %>
+        <input name="quantity" type="text" value="1">
+        <input name="book_id" type="hidden" value="<%= @book.id %>">
+        <%= f.submit "Add to cart", class: "small button add-to-cart" %>
         <% end %>
-      <% end %>
+        <% end %>
+      </div>
     </div>
-  </div>
-  <hr>
-  <div class="row">
+    <hr>
     <div class="small-12 description">
       <%= @book.description %>
     </div>
   </div>
-</div>
 
   <% if @book.ratings.length > 0 %>
-    <p>
-      Average rating:
-      <%= @book.ratings.inject(0){|sum, rating| sum+rating.rating}/@book.ratings.length %>
-    </p>
+  <p>
+    Average rating:
+    <%= @book.ratings.inject(0){|sum, rating| sum+rating.rating}/@book.ratings.length %>
+  </p>
     <% @book.ratings.each do |rating| %>
-      <div class="panel callout">
-        <p><strong><%= rating.rating %></strong> by <%= rating.customer.firstname %></p>
-        <p><%= rating.review %></p>
-      </div>
+    <div class="panel callout">
+      <p><strong><%= rating.rating %></strong> by <%= rating.customer.firstname %></p>
+      <p><%= rating.review %></p>
+    </div>
+    <% end %>
+  <% end %>
+  <% if customer_signed_in? && !((current_customer.ratings & @book.ratings).length > 0) %>
+    <%= form_for @rating, html: {class: "panel"} do |f| %>
+      <p>Rate this book:</p>
+      <%= f.hidden_field :book_id, value: @book.id %>
+      <%= f.hidden_field :customer_id, value: current_customer.id %>
+      <%= f.select :rating,  (1..10).to_a %>
+      <br>
+      <br>
+      <%= f.text_area :review, placeholder: "Review" %>
+      <br>
+      <%= f.submit class: "button" %>
     <% end %>
   <% end %>
 </div>

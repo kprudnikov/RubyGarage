@@ -3,10 +3,12 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
+    @order_item = OrderItem.new
   end
 
   def show
     @book = Book.find(params[:id])
+    @rating = Rating.new
   end
 
   def new

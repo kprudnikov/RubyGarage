@@ -12,17 +12,22 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-    if Book.find(params[:book_id]).in_stock?
-      @order.add_book(order_params)
-      if @order.save
-        flash[:success] = "Book added"
-      else
-        flash[:alert] = "Error"
-      end
+    if !(current_customer.order_in_progress == @order)
+      flash[:alert] = "Access denied"
+      redirect_to request.referrer
     else
-      flash[:alert] = "Book is out of stock"
+      if Book.find(params[:book_id]).in_stock?
+        @order.add_book(order_params)
+        if @order.save
+          flash[:success] = "Book added"
+        else
+          flash[:alert] = "Error"
+        end
+      else
+        flash[:alert] = "Book is out of stock"
+      end
+      redirect_to root_path
     end
-    redirect_to root_path
   end
 
 private

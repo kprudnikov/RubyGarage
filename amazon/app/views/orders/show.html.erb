@@ -1,15 +1,13 @@
 <div class="columns">
   <% if @order.books.length > 0 %>
   <ul class="books">
-    <% @order.order_items.each do |item| %>
+  <% @order.order_items.each do |item| %>
     <li>
-      <div class="row small-collapse">
+      <div class="row collapse">
         <div class="medium-10 small-12 columns">
-          <div class="row small-collapse">
+          <div class="row collapse">
             <div class="small-10 columns">
-              <p>
-                <%= link_to item.book.title, book_path(item.book) %>
-              </p>
+              <%= link_to item.book.title, book_path(item.book) %>
             </div>
             <div class="small-2 columns">
               <span class=""><%= item.quantity %></span>
@@ -17,10 +15,10 @@
           </div>
         </div>
         <div class="medium-2 small-12 columns">
-        <%= form_for item, method: :delete do |f| %>
-          <input name="id" type="hidden" value="<%= item.id %>">
-          <%= f.submit "Remove", class: "expand tiny alert button" %>
-        <% end %>
+          <%= form_for item, method: :delete do |f| %>
+            <input name="id" type="hidden" value="<%= item.id %>">
+            <%= f.submit "Remove", class: "expand tiny alert button" %>
+          <% end %>
         </div>
       </div>
       <hr>

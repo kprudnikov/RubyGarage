@@ -1,37 +1,42 @@
 <% if customer_signed_in? %>
-  <menu class="columns">
+  <menu class="admin-menu columns">
     <%= link_to "Add book", new_book_path %> <span style="color: #008CBA"> | </span>
     <%= link_to "Add author", new_author_path %> <span style="color: #008CBA"> | </span>
     <%= link_to "Add category", new_category_path %>
   </menu>
 <% end %>
-
-<ul class="books-list large-collapse">
-  <% @books.each.with_index do |book, num| %>
-    <% if num == @books.length - 1 %>
-      <li class="small-12 medium-6 large-4 columns end">
-    <% else %>
-      <li class="small-12 medium-6 large-4 columns">
-    <% end %>
-      <h3>
-        <%= link_to book_path(book), title: book.title do %>
-          <%= book.title %>
-        <% end %>
-      </h3>
-      <p>
-        <%= link_to book.author.firstname + " " + book.author.lastname, author_path(book.author) %>
-      </p>
-      <% if customer_signed_in? %>
-        <% if book.in_stock? %>
-          <%= form_for current_customer.order_in_progress do |f| %>
-            <input name="book_id" type="hidden" value="<%= book.id %>">
-            <%= f.submit "Add to cart", class: "tiny button add-to-cart" %>
-          <% end %>
-        <% else %>
-          <div class="tiny alert add-to-cart button"><%= t(:out_of_stock) %></div>
-        <% end %>
+<div class="medium-10 small-12 columns">
+  <ul class="books-list row collapse">
+    <% @books.each.with_index do |book, num| %>
+      <% if num == @books.length - 1 %>
+        <li class="small-12 medium-6 large-4 columns end">
+      <% else %>
+        <li class="small-12 medium-6 large-4 columns">
       <% end %>
-      <hr>
-    </li>
-  <% end %>
-</ul>
+        <h3>
+          <%= link_to book_path(book), title: book.title do %>
+            <%= book.title %>
+          <% end %>
+        </h3>
+        <p>
+          <%= link_to book.author.firstname + " " + book.author.lastname, author_path(book.author) %>
+        </p>
+        <% if customer_signed_in? %>
+          <% if book.in_stock? %>
+            <%= form_for [current_customer.order_in_progress, @order_item], method: :post do |f|%>
+              <%= f.hidden_field :book_id, value: book.id %>
+              <%= f.hidden_field :order_id, value: current_customer.order_in_progress.id %>
+              <%= f.submit "Add to cart", class: "tiny button add-to-cart" %>
+            <% end %>
+          <% else %>
+            <div class="tiny alert add-to-cart button"><%= t(:out_of_stock) %></div>
+          <% end %>
+        <% end %>
+        <hr>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<aside class="medium-2 small-12 columns">
+  <%= render "categories/index" %>
+</aside>

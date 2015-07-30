@@ -4,6 +4,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :create_empty_order
 
+  def initialize
+    @categories = Category.all
+    super
+  end
+
 private
 
   def create_empty_order
