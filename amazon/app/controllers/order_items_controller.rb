@@ -13,7 +13,6 @@ class OrderItemsController < ApplicationController
 
   def destroy
     item = OrderItem.find(params[:id])
-    # if current_customer.order_in_progress.order_items.include? item
     if current_customer.orders.find(params[:order_id]).order_items.include? item
       item.delete
       flash[:success] = "Successfully removed"
@@ -25,10 +24,14 @@ class OrderItemsController < ApplicationController
 
   def update
     @order_item = OrderItem.find(params[:id])
-    if @order_item.update!(create_order_item_params)
-      flash[:success] = "Order successfully updated"
+    if params.require(:order_item)[:quantity].to_i <= 0
+      flash[:alert] = "You cannot order less than 1 book"
+    else
+      if @order_item.update!(create_order_item_params)
+        flash[:success] = "Order successfully updated"
+      end
+      redirect_to order_path(@order_item.order)
     end
-    redirect_to order_path(@order_item.order)
   end
 
 private

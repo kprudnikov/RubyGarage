@@ -1,7 +1,6 @@
 <div class="columns">
   <% if @order.books.length > 0 %>
   <ul class="books">
-
     <li>
       <div class="row">
         <div class="medium-11 small-12 columns">
@@ -34,19 +33,13 @@
               <%= form_for [@order, item], method: :patch, html: {class: "row collapse"} do |f| %>
                 <%= f.hidden_field :id, value: item.id %>
                 <div class="small-6 columns">
-                  <!-- <div class="row"> -->
-                    <%= f.text_field :quantity, value: item.quantity %>
-                  <!-- </div> -->
+                  <%= f.number_field :quantity, value: item.quantity, min: 1 %>
                 </div>
                 <%= f.hidden_field :book_id, value: item.book.id %>
                 <div class="small-6 columns">
-                  <!-- <div class="row"> -->
-                    <%= f.submit "Update", class: "tiny button expand" %>
-                  <!-- </div> -->
+                    <%= f.submit "Update", class: "button postfix" %>
                 </div>
-                <!-- <input name="id" type="hidden" value="<%= item.id %>"> -->
               <% end %>
-              <!-- <input type="text" value="<%= item.quantity %>"> -->
             </div>
           </div>
         </div>
