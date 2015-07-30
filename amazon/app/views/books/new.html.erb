@@ -1,5 +1,5 @@
 <div class="columns">
-<%= form_for @book do |f| %>
+<%= form_for @book, html: {multipart: true} do |f| %>
   <%= f.label :title, class: "show-for-sr" %>
   <%= f.text_field :title, placeholder: "Title" %>
   <div class="row collapse">
@@ -24,6 +24,7 @@
   </div>
   <%= f.label :description, class: "show-for-sr" %>
   <%= f.text_area :description, placeholder: "Description", style: "margin-bottom: 1rem" %>
+  <%= f.file_field :cover %>
   <%= f.submit "Submit", class: "button" %>
 <% end %>
 </div>

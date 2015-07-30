@@ -2,6 +2,7 @@
   <div class="panel">
     <div class="row collapse">
       <div class="medium-7 columns">
+        <%= image_tag @book.cover_url.to_s %>
         <h2><%= @book.title %></h2>
         <%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author) %>
       </div>
