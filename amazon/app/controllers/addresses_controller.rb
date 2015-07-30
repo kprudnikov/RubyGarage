@@ -7,9 +7,6 @@ class AddressesController < ApplicationController
   def new
     @address = Address.new
     @countries = Country.all
-    # puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    # puts params
-    # puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   end
 
   def create

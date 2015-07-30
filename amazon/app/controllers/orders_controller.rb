@@ -7,7 +7,16 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = current_customer.order_in_progress
+    begin
+      @order = Order.find(params[:id])
+      if !current_customer.orders.include?( @order )
+        flash[:alert] = "Access denied"
+        redirect_to order_path(current_customer.order_in_progress)
+      end
+    rescue
+      flash[:alert] = "Order not found"
+      redirect_to root_path
+    end
   end
 
   def update
@@ -17,7 +26,7 @@ class OrdersController < ApplicationController
       redirect_to request.referrer
     else
       if Book.find(params[:book_id]).in_stock?
-        @order.add_book(order_params)
+        @order.add_book(create_order_item_params)
         if @order.save
           flash[:success] = "Book added"
         else
@@ -32,7 +41,7 @@ class OrdersController < ApplicationController
 
 private
 
-  def order_params
+  def create_order_item_params
     params.permit([:book_id, :quantity])
   end
 

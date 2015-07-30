@@ -1,9 +1,5 @@
 class RatingsController < ApplicationController
   def create
-    puts "@@@@@@@@@@@@@@@@@"
-    puts "@@@@@@@@@@@@@@@@@"
-    puts rating_params
-    puts "@@@@@@@@@@@@@@@@@"
     @rating = Rating.new(rating_params)
     if @rating.save
       flash[:success] = "Review successfully added"

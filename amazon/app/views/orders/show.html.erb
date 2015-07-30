@@ -1,23 +1,60 @@
 <div class="columns">
   <% if @order.books.length > 0 %>
   <ul class="books">
-  <% @order.order_items.each do |item| %>
+
     <li>
-      <div class="row collapse">
-        <div class="medium-10 small-12 columns">
+      <div class="row">
+        <div class="medium-11 small-12 columns">
           <div class="row collapse">
-            <div class="small-10 columns">
-              <%= link_to item.book.title, book_path(item.book) %>
+            <div class="small-6 columns">
+              <p>Book</p>
             </div>
-            <div class="small-2 columns">
-              <span class=""><%= item.quantity %></span>
+            <div class="small-3 columns">
+              <p>Price</p>
+            </div>
+            <div class="small-3 columns">
+              <p>Qty</p>
             </div>
           </div>
         </div>
-        <div class="medium-2 small-12 columns">
-          <%= form_for item, method: :delete do |f| %>
+      </div>
+    </li>
+  <% @order.order_items.each do |item| %>
+    <li>
+      <div class="row">
+        <div class="medium-11 small-12 columns">
+          <div class="row collapse">
+            <div class="small-6 columns">
+              <%= link_to item.book.title, book_path(item.book) %>
+            </div>
+            <div class="small-3 columns">
+              <p><%= t("currency") %> <%= item.book.price %> </p>
+            </div>
+            <div class="small-3 columns">
+              <%= form_for [@order, item], method: :patch, html: {class: "row collapse"} do |f| %>
+                <%= f.hidden_field :id, value: item.id %>
+                <div class="small-6 columns">
+                  <!-- <div class="row"> -->
+                    <%= f.text_field :quantity, value: item.quantity %>
+                  <!-- </div> -->
+                </div>
+                <%= f.hidden_field :book_id, value: item.book.id %>
+                <div class="small-6 columns">
+                  <!-- <div class="row"> -->
+                    <%= f.submit "Update", class: "tiny button expand" %>
+                  <!-- </div> -->
+                </div>
+                <!-- <input name="id" type="hidden" value="<%= item.id %>"> -->
+              <% end %>
+              <!-- <input type="text" value="<%= item.quantity %>"> -->
+            </div>
+          </div>
+        </div>
+        <div class="medium-1 small-12 columns">
+          <%= form_for [@order, item], method: :delete do |f| %>
             <input name="id" type="hidden" value="<%= item.id %>">
-            <%= f.submit "Remove", class: "expand tiny alert button" %>
+            <%= f.submit "×", class: "expand tiny alert button" do %>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -26,6 +63,12 @@
     <% end %>
   </ul>
   <p>Total: <span><%= t(:currency) %></span> <span><%= @order.get_total_price %></span></p>
+  <div class="row collapse">
+    <div class="small-12 columns">
+      <%= link_to "Continue shopping", root_path, class: "small button" %>
+      <%= link_to "Checkout", root_path, class: "small button" %>
+    </div>
+  </div>
   <% else %>
     <h2>Cart is empty</h2>
   <% end %>

@@ -18,8 +18,8 @@ Rails.application.routes.draw do
   resources :orders do
     resources :order_items
   end
-  resources :categories
-  resources :order_items, only: [:destroy]
+  resources :categories, only:[:create, :show, :new]
+  # resources :order_items, only: [:destroy]
 
 #                       Prefix Verb   URI Pattern                                      Controller#Action
 #         new_customer_session GET    /customers/sign_in(.:format)                     devise/sessions#new
