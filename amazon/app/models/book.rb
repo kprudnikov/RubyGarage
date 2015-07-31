@@ -16,4 +16,8 @@ class Book < ActiveRecord::Base
   def in_stock?
     self.in_stock > 0
   end
+
+  def has_cover?
+    self.cover.to_s.length > 0
+  end
 end

@@ -1,0 +1,34 @@
+<%= form_for @book, html: {multipart: true} do |f| %>
+  <%= f.label :title, class: "show-for-sr" %>
+  <%= f.text_field :title, placeholder: "Title" %>
+  <div class="row collapse">
+    <div class="medium-6 small-12 columns">
+      <%= f.label :price, class: "show-for-sr" %>
+      <%= f.number_field :price, placeholder: "Price", step: 0.01 %>
+    </div>
+    <div class="medium-6 small-12 columns">
+      <%= f.label :in_stock, class: "show-for-sr" %>
+      <%= f.number_field :in_stock, placeholder: "In stock", min: 0 %>
+    </div>
+  </div>
+  <div class="row collapse">
+    <div class="medium-6 small-12 columns" style="margin-bottom: 1rem">
+      <%= f.label :author_id, class: "show-for-sr" %>
+      <%= f.select "author_id", @formatted_authors %>
+    </div>
+    <div class="medium-6 small-12 columns" style="margin-bottom: 1rem">
+      <%= f.label :category_id, class: "show-for-sr" %>
+      <%= f.select "category_id", @formatted_categories %>
+    </div>
+  </div>
+  <%= f.label :description, class: "show-for-sr" %>
+  <%= f.text_area :description, placeholder: "Description", style: "margin-bottom: 1rem" %>
+  <% if @book.has_cover? %>
+    <div class="cover-container__show">
+      <%= image_tag @book.cover.to_s %>
+    </div>
+  <% end %>
+  <br>
+  <%= f.file_field :cover %>
+  <%= f.submit "Submit", class: "button" %>
+<% end %>

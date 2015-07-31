@@ -16,6 +16,26 @@
     .add-to-cart {
       margin-bottom: 0;
     }
+    .cover-container {
+      height: 200px;
+      text-align: center;
+      // background-color: #ddd;
+      border: 1px solid #d7d7d7;
+      border-bottom: 0;
+
+      img {
+        height: 100%;
+      }
+    }
   }
 
+
+}
+
+.cover-container__show {
+  height: 250px;
+
+  img {
+    height: 100%;
+  }
 }

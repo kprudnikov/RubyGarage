@@ -37,7 +37,7 @@
                 </div>
                 <%= f.hidden_field :book_id, value: item.book.id %>
                 <div class="small-6 columns">
-                    <%= f.submit "Update", class: "button postfix" %>
+                    <%= f.submit "Update", class: "button postfix expand" %>
                 </div>
               <% end %>
             </div>
@@ -60,6 +60,10 @@
     <div class="small-12 columns">
       <%= link_to "Continue shopping", root_path, class: "small button" %>
       <%= link_to "Checkout", root_path, class: "small button" %>
+      <%= form_for @order, method: :delete do |f| %>
+        <%= f.hidden_field :id %>
+        <%= f.submit "Clear cart", class: "alert button" %>
+      <% end %>
     </div>
   </div>
   <% else %>

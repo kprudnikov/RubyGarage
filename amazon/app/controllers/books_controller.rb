@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
-  before_action :authenticate_customer!, only: [:new, :create]
+  before_action :authenticate_customer!, only: [:new, :create, :edit, :update]
+  before_action :format_authors_and_categories, only: [:new, :edit]
 
   def index
     @books = Book.all
@@ -12,8 +13,6 @@ class BooksController < ApplicationController
   end
 
   def new
-    @formatted_categories = Category.all.collect{|category| [category.title, category.id]}
-    @formatted_authors = Author.all.collect{|author| [author.firstname+" "+author.lastname, author.id]}
     @book = Book.new
   end
 
@@ -22,10 +21,25 @@ class BooksController < ApplicationController
     redirect_to @book
   end
 
+  def edit
+    @book = Book.find(params[:id])
+  end
+
+  def update
+    @book = Book.find(params[:id])
+    @book.update!(book_params)
+    redirect_to book_path @book
+  end
+
 private
 
   def book_params
     params.require(:book).permit([:title, :description, :price, :in_stock, :author_id, :category_id, :cover])
+  end
+
+  def format_authors_and_categories
+    @formatted_categories = Category.all.collect{|category| [category.title, category.id]}
+    @formatted_authors = Author.all.collect{|author| [author.firstname+" "+author.lastname, author.id]}
   end
 
 end

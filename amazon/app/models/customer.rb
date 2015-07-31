@@ -15,4 +15,8 @@ class Customer < ActiveRecord::Base
     self.orders.find_by(state: "in progress")
     # self.orders.find{|order| order.state == "in progress"}
   end
+
+  def admin?
+    self.admin
+  end
 end

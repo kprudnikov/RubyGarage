@@ -1,4 +1,4 @@
-<% if customer_signed_in? %>
+<% if customer_signed_in? && current_customer.admin? %>
   <menu class="admin-menu columns">
     <%= link_to "Add book", new_book_path %> <span style="color: #008CBA"> | </span>
     <%= link_to "Add author", new_author_path %> <span style="color: #008CBA"> | </span>
@@ -6,14 +6,18 @@
   </menu>
 <% end %>
 <div class="medium-10 small-12 columns">
-  <ul class="books-list row collapse">
+  <ul class="books-list row">
     <% @books.each.with_index do |book, num| %>
       <% if num == @books.length - 1 %>
         <li class="small-12 medium-6 large-4 columns end">
       <% else %>
         <li class="small-12 medium-6 large-4 columns">
       <% end %>
-        <%= image_tag book.cover_url.to_s %>
+        <div class="cover-container">
+          <%= image_tag book.cover_url.to_s %>
+        </div>
+        <div class="panel">
+
         <h3>
           <%= link_to book_path(book), title: book.title do %>
             <%= book.title %>
@@ -28,16 +32,22 @@
               <%= f.hidden_field :book_id, value: book.id %>
               <%= f.hidden_field :order_id, value: current_customer.order_in_progress.id %>
               <%= f.submit "Add to cart", class: "tiny button add-to-cart" %>
+              <% if current_customer.admin? %>
+                <%= link_to "Edit book", edit_book_path(book), class: "tiny button" %>
+              <% end %>
             <% end %>
           <% else %>
             <div class="tiny alert add-to-cart button"><%= t(:out_of_stock) %></div>
           <% end %>
         <% end %>
-        <hr>
+        </div>
+
+        <!-- <hr> -->
       </li>
     <% end %>
   </ul>
 </div>
 <aside class="medium-2 small-12 columns">
+  <p>Browse by category:</p>
   <%= render "categories/index" %>
 </aside>

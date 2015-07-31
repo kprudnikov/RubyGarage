@@ -39,6 +39,17 @@ class OrdersController < ApplicationController
     end
   end
 
+  def destroy
+    @order = Order.find(params[:id])
+    if @order.destroy
+      flash[:success] = "Cart is cleared"
+      redirect_to root_path
+    else
+      flash[:success] = "Error"
+      redirect_to order_path @order
+    end
+  end
+
 private
 
   def create_order_item_params
