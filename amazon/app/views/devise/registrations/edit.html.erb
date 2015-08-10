@@ -45,12 +45,17 @@
 <% end %>
   <div class="row">
     <div class="medium-6 small-12 columns">
-        <!-- undefined method `address_path' for #<#<Class:0x00000005722ae0>:0x00000005713a68> -->
       <%= form_for @billing_address do |f| %>
         <fieldset>
 
         <legend>Billing address</legend>
         <%= f.hidden_field :address_type, value: "billing_address" %>
+
+        <%= f.label "First name" %>
+        <%= f.text_field :firstname, value: current_customer.firstname %>
+
+        <%= f.label "Last name" %>
+        <%= f.text_field :lastname, value: current_customer.lastname %>
 
         <%= f.label "Street address" %>
         <%= f.text_field :address %>
@@ -65,7 +70,7 @@
         <%= f.text_field :city %>
 
         <%= f.label "Country" %>
-        <%= select_tag(:country, options_for_select(@countries.map{|country| [country.name, country.id]})) %>
+        <%= select_tag "address[country_id]", options_from_collection_for_select(@countries, "id", "name", @billing_address.country_id) %>
         <br>
         <br>
         <%= f.submit "Save", class: "small button" %>
@@ -80,6 +85,12 @@
 
         <%= f.hidden_field :address_type, value: "shipping_address" %>
 
+        <%= f.label "First name" %>
+        <%= f.text_field :firstname, value: current_customer.firstname %>
+
+        <%= f.label "Last name" %>
+        <%= f.text_field :lastname, value: current_customer.lastname %>
+
         <%= f.label "Street address" %>
         <%= f.text_field :address %>
 
@@ -93,7 +104,7 @@
         <%= f.text_field :city %>
 
         <%= f.label "Country" %>
-        <%= select_tag(:country_id, options_for_select(@countries.map{|country| [country.name, country.id]})) %>
+        <%= select_tag "address[country_id]", options_from_collection_for_select(@countries, "id", "name", @shipping_address.country_id) %>
         <br>
         <br>
         <%= f.submit "Save", class: "small button" %>

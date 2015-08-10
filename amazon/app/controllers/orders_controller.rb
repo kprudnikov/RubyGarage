@@ -52,7 +52,12 @@ class OrdersController < ApplicationController
     end
   end
 
-  def checkout_step_1
+  def addresses
+    @billing_address = current_customer.billing_address || Address.new
+    @shipping_address = current_customer.shipping_address || Address.new
+  end
+
+  def set_adresses
 
   end
 

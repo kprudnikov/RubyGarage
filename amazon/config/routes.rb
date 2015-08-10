@@ -10,13 +10,16 @@ Rails.application.routes.draw do
   # root 'customers#login'
   root 'books#index'
 
-  resources :addresses, only: [:create, :new, :index]
+  # resources :addresses, only: [:create, :new, :index]
+  resources :addresses
   resources :credit_cards
   resources :books
   resources :ratings, only: [:create]
   resources :authors, only: [:show, :new, :create]
   resources :orders do
     resources :order_items
+    get "/checkout/addresses", to: "orders#addresses"
+    post "/checkout/addresses", to: "orders#set_addresses"
   end
   resources :categories, only:[:create, :show, :new]
   # resources :order_items, only: [:destroy]
