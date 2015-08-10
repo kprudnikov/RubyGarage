@@ -27,22 +27,29 @@
           <%= link_to book.author.firstname + " " + book.author.lastname, author_path(book.author) %>
         </p>
         <% if customer_signed_in? %>
+          <div class="row collapse">
+
           <% if book.in_stock? %>
-            <%= form_for [current_customer.order_in_progress, @order_item], method: :post do |f|%>
+            <%= form_for [current_customer.order_in_progress, @order_item], method: :post, html: {class: "medium-6 small-12 columns"}  do |f|%>
+              <%= f.hidden_field :quantity, value: 1 %>
               <%= f.hidden_field :book_id, value: book.id %>
               <%= f.hidden_field :order_id, value: current_customer.order_in_progress.id %>
-              <%= f.submit "Add to cart", class: "tiny button add-to-cart" %>
-              <% if current_customer.admin? %>
-                <%= link_to "Edit book", edit_book_path(book), class: "tiny button" %>
-              <% end %>
+              <%= f.submit "Add to cart", class: "small success button expand add-to-cart" %>
             <% end %>
           <% else %>
-            <div class="tiny alert add-to-cart button"><%= t(:out_of_stock) %></div>
+            <div class="medium-6 small-12 columns">
+              <div class="small alert add-to-cart button expand"><%= t(:out_of_stock) %></div>
+            </div>
           <% end %>
+          <% if current_customer.admin? %>
+            <div class="medium-6 small-12 columns">
+              <%= link_to "Edit book", edit_book_path(book), class: "small button expand" %>
+            </div>
+          <% end %>
+          </div>
         <% end %>
         </div>
-
-        <!-- <hr> -->
+        <hr>
       </li>
     <% end %>
   </ul>

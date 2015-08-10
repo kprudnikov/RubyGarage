@@ -2,16 +2,39 @@ class OrderItemsController < ApplicationController
   before_action :authenticate_customer!
 
   def create
-    @order_item = OrderItem.new(create_order_item_params)
+
+
+    puts "@@@@@@@@@@@"
+    puts "@@@@@@@@@@@"
+
+    puts
+    puts "OI CONTROLLER"
+    puts create_order_item_params["book_id"].class
+    puts
+
+    puts "@@@@@@@@@@@"
+    puts "@@@@@@@@@@@"
+
+
+    begin
+      @order = current_customer.order_in_progress
+      @order_item = @order.order_items.find_by(book_id: create_order_item_params["book_id"].to_i)
+      @order_item.quantity += create_order_item_params["quantity"].to_i
+    rescue
+      @order_item = OrderItem.new(create_order_item_params)
+    end
     if @order_item.save
       flash[:success] = "Added to cart"
     else
       flash[:alert] = "Error"
     end
+
     redirect_to request.referrer
   end
 
   def destroy
+
+
     item = OrderItem.find(params[:id])
     if current_customer.orders.find(params[:order_id]).order_items.include? item
       item.delete

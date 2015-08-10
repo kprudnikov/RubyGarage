@@ -6,12 +6,22 @@ class Order < ActiveRecord::Base
   has_many :books, through: :order_items
   validates :customer, presence: true
 
+  include AASM
+
+  aasm column: 'state' do
+    state :in_progress, initial: true
+    state :in_queue
+    state :in_delivery
+    state :delivered
+    state :canceled
+  end
+
   def add_book(params)
     self.order_items << OrderItem.new(params)
   end
 
   def self.last_in_progress(customer)
-    customer.orders.find_by(state: "in progress")
+    customer.orders.find_by(state: "in_progress")
   end
 
   def get_total_price

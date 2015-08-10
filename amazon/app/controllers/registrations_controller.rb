@@ -1,5 +1,11 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  def edit
+    @billing_address = current_customer.billing_address || Address.new
+    @shipping_address = current_customer.shipping_address || Address.new
+    @countries = Country.all
+  end
+
   private
 
   def sign_up_params

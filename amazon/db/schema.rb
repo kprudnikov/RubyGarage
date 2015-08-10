@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730163858) do
+ActiveRecord::Schema.define(version: 20150809160900) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address"
@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(version: 20150730163858) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.boolean  "admin",                  default: false, null: false
+    t.integer  "billing_address_id"
+    t.integer  "shipping_address_id"
   end
 
   add_index "customers", ["email"], name: "index_customers_on_email", unique: true
@@ -110,7 +112,7 @@ ActiveRecord::Schema.define(version: 20150730163858) do
   create_table "orders", force: :cascade do |t|
     t.float    "total_price"
     t.datetime "completed_date"
-    t.string   "state",            default: "in progress"
+    t.string   "state",            default: "in_progress", null: false
     t.integer  "customer_id"
     t.integer  "credit_card_id"
     t.integer  "billing_address"

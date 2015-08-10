@@ -34,9 +34,12 @@
       </div>
       <div class="medium-3 columns">
         <% if customer_signed_in? && @book.in_stock? %>
-        <%= form_for current_customer.order_in_progress do |f| %>
-        <input name="quantity" type="text" value="1">
-        <input name="book_id" type="hidden" value="<%= @book.id %>">
+        <%= form_for [current_customer.order_in_progress, @order_item], method: :post do |f| %>
+          <%= f.hidden_field :book_id, value: @book.id %>
+          <%= f.hidden_field :order_id, value: current_customer.order_in_progress.id %>
+          <%= f.number_field :quantity, value: 1, min: 0 %>
+        <!-- <input name="quantity" type="text" value="1"> -->
+        <!-- <input name="book_id" type="hidden" value="<%= @book.id %>"> -->
         <%= f.submit "Add to cart", class: "small button add-to-cart" %>
         <% end %>
         <% end %>
@@ -74,7 +77,7 @@
       <br>
       <br>
       <br>
-      <%= f.submit class: "button" %>
+      <%= f.submit "Submit review ", class: "button" %>
     <% end %>
   <% end %>
 </div>
