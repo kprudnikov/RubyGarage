@@ -28,6 +28,7 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
+    # can be updated only if current order is in progress. Or by admin
     if !current_customer.admin? && !(current_customer.order_in_progress == @order)
       flash[:alert] = "Access denied"
       redirect_to request.referrer
@@ -36,7 +37,6 @@ class OrdersController < ApplicationController
         @order.order_items.update(item[0].to_i, {book_id: item[1]["book_id"].to_i, quantity: item[1]["quantity"].to_i})
       end
 
-      # @order.total_price = @order.order_items.inject(0){|sum, item| sum + item.book.price*item.quantity}
       @order.calculate_total_price
 
       if @order.save
@@ -60,6 +60,8 @@ class OrdersController < ApplicationController
       end
     end
   end
+
+# CHECKOUT
 
   def addresses
     @customer = current_customer
@@ -179,6 +181,9 @@ class OrdersController < ApplicationController
     end
   end
 
+# CHECKOUT END
+
+# Admin states handle
   def set_state
     @order = current_customer.orders.find(params[:order_id]) || current_customer.order_in_progress
 
