@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
     get "/checkout/confirm", to: "orders#verify_data", as: "confirmation"
     patch "/checkout/confirm", to: "orders#confirm"
+
+    patch "/state", to: "orders#set_state", as: "state"
   end
 
   resources :categories, only:[:create, :show, :new]

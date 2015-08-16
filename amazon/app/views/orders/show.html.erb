@@ -31,8 +31,12 @@
               <p><%= t("currency") %> <%= item.book.price %> </p>
             </div>
             <div class="small-2 columns">
-              <input type="number" name="order[order_items][][quantity]" value="<%= item.quantity %>" min=1>
-              <input type="hidden" name="order[order_items][][id]" value="<%= item.id %>">
+              <%= order_form.fields_for :order_items do |oi| %>
+                <%= oi.fields_for item.id.to_s do |item_form| %>
+                  <%= item_form.number_field :quantity, value: item.quantity, min: 1 %>
+                  <%= item_form.hidden_field :book_id, value: item.book.id %>
+                <% end %>
+              <% end %>
             </div>
           </div>
         </div>
@@ -41,10 +45,11 @@
         </div>
       </div>
       <hr>
+
     </li>
-    <% end %>
+  <% end %>
     <%= order_form.submit "Update", class: "button" %>
-    <% end %>
+  <% end %>
   </ul>
   <p>Total: <span><%= t(:currency) %></span> <span><%= @order.total_price %></span></p>
   <div class="row collapse">

@@ -62,4 +62,11 @@ class Order < ActiveRecord::Base
     self.completed_date = Time.now
   end
 
+  def calculate_total_price
+    self.total_price = self.order_items.inject(0){|sum, item| sum + item.book.price*item.quantity}
+    if self.delivery_service
+      self.total_price += self.delivery_service.cost
+    end
+  end
+
 end

@@ -17,22 +17,24 @@
         <br>
       <% end %>
       <nav>
-        <%= link_to t("menu.home"), root_path, class: "secondary button small" %>
+        <%= link_to root_path, class: "secondary button" do %>
+          <i class="fi-home"></i>
+        <% end %>
         <% if customer_signed_in? %>
-            <%= link_to order_path(current_customer.order_in_progress) , class: "secondary button small", title: "Current order" do %>
-              <i class="fi-shopping-cart large"></i>
+            <%= link_to order_path(current_customer.order_in_progress) , class: "secondary button", title: "Current order" do %>
+              <i class="fi-shopping-cart"></i>
               <span>: <%= current_customer.order_in_progress.books.length %></span>
             <% end %>
-          <%= link_to "Log out", destroy_customer_session_path, :method => :delete, class: "secondary button small" %>
-          <%= link_to edit_customer_registration_path, class: "secondary small button", title: "Settings" do %>
-            <i class="fi-widget large"></i>
+          <%= link_to edit_customer_registration_path, class: "secondary button", title: "Settings" do %>
+            <i class="fi-widget"></i>
           <% end %>
-          <%= link_to orders_path, class: "secondary small button", title: "Orders history" do %>
-            <i class="fi-clock large"></i>
+          <%= link_to orders_path, class: "secondary button", title: "Orders history" do %>
+            <i class="fi-clock"></i>
           <% end %>
+          <%= link_to "Log out", destroy_customer_session_path, :method => :delete, class: "secondary button" %>
         <% else %>
-          <%= link_to "Log in", new_customer_session_path, class: "secondary button small" %>
-          <%= link_to "Sign up", new_customer_registration_path, class: "secondary button small" %>
+          <%= link_to "Log in", new_customer_session_path, class: "secondary button" %>
+          <%= link_to "Sign up", new_customer_registration_path, class: "secondary button" %>
         <% end %>
       </nav>
     </header>

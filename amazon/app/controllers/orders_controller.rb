@@ -5,17 +5,18 @@ class OrdersController < ApplicationController
 
   def index
     if current_customer.admin?
-      # @orders = Order.find_by!(state: "in_progress")
       @orders = Order.where("state != 'in_progress'")
+      # @orders = Order.all
     else
-      @orders = current_customer.orders.select{|o| o.state != "in_progress"}
+      @orders = current_customer.orders.where("state != 'in_progress'")
     end
   end
 
   def show
     begin
       @order = Order.find(params[:id])
-      if !current_customer.admin? && !current_customer.orders.include?( @order )
+      @order.calculate_total_price
+      if !current_customer.admin? && (!current_customer.orders.include?( @order ) || @order.state != "in_progress")
         flash[:alert] = "Access denied"
         redirect_to order_path(current_customer.order_in_progress)
       end
@@ -27,14 +28,17 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-    if !(current_customer.order_in_progress == @order)
+    if !current_customer.admin? && !(current_customer.order_in_progress == @order)
       flash[:alert] = "Access denied"
       redirect_to request.referrer
     else
-      update_order_params.each do |item|
-        @order.order_items.update(item["id"], {id: item["id"], quantity: item["quantity"]})
+      update_order_items_params.each do |item|
+        @order.order_items.update(item[0].to_i, {book_id: item[1]["book_id"].to_i, quantity: item[1]["quantity"].to_i})
       end
-      @order.total_price = @order.order_items.inject(0){|sum, item| sum + item.book.price*item.quantity}
+
+      # @order.total_price = @order.order_items.inject(0){|sum, item| sum + item.book.price*item.quantity}
+      @order.calculate_total_price
+
       if @order.save
         flash[:success] = "Order updated"
       else
@@ -96,7 +100,8 @@ class OrdersController < ApplicationController
 
   def set_delivery_service
     @order = current_customer.orders.find(params[:order_id]) || current_customer.order_in_progress
-    @order.total_price += DeliveryService.find(delivery_service_params[:delivery_service_id]).cost
+    # @order.total_price += DeliveryService.find(delivery_service_params[:delivery_service_id]).cost
+    @order.calculate_total_price
     if @order.update(delivery_service_params)
       flash[:success] = "Delivery service saved"
       redirect_to order_credit_card_path(@order)
@@ -174,14 +179,46 @@ class OrdersController < ApplicationController
     end
   end
 
+  def set_state
+    @order = current_customer.orders.find(params[:order_id]) || current_customer.order_in_progress
+
+    begin
+      case params[:order][:state]
+      when "in_progress"
+        @order.edit
+      when "in_queue"
+        @order.place
+      when "in_delivery"
+        @order.send_order
+      when "delivered"
+        @order.deliver
+      when "canceled"
+        @order.cancel
+      end
+      if @order.save
+        flash[:success] = "Order state updated"
+      else
+        flash[:alert] = "Order state wasn't updated"
+      end
+    rescue
+      flash[:alert] = "Incorrect transition"
+    end
+    redirect_to request.referrer
+  end
+
 private
 
   def create_order_item_params
     params.permit([:book_id, :quantity])
   end
 
-  def update_order_params
-    params["order"]["order_items"]
+  # def update_order_params
+  #   # params["order"]["order_items"]
+  #   params.require(:order).permit([:state])
+  # end
+
+  def update_order_items_params
+    params.require(:order).require(:order_items)
   end
 
   def billing_address_params
