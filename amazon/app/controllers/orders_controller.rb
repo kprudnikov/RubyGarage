@@ -28,7 +28,7 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-    # can be updated only if current order is in progress. Or by admin
+    # can be updated only if current order is in progress. Or by admin.
     if !current_customer.admin? && !(current_customer.order_in_progress == @order)
       flash[:alert] = "Access denied"
       redirect_to request.referrer
