@@ -19,12 +19,17 @@
       <nav>
         <%= link_to t("menu.home"), root_path, class: "secondary button small" %>
         <% if customer_signed_in? %>
-            <%= link_to order_path(current_customer.order_in_progress) , class: "secondary button small" do %>
+            <%= link_to order_path(current_customer.order_in_progress) , class: "secondary button small", title: "Current order" do %>
               <i class="fi-shopping-cart large"></i>
               <span>: <%= current_customer.order_in_progress.books.length %></span>
             <% end %>
           <%= link_to "Log out", destroy_customer_session_path, :method => :delete, class: "secondary button small" %>
-          <%= link_to "Settings",  edit_customer_registration_path %>
+          <%= link_to edit_customer_registration_path, class: "secondary small button", title: "Settings" do %>
+            <i class="fi-widget large"></i>
+          <% end %>
+          <%= link_to orders_path, class: "secondary small button", title: "Orders history" do %>
+            <i class="fi-clock large"></i>
+          <% end %>
         <% else %>
           <%= link_to "Log in", new_customer_session_path, class: "secondary button small" %>
           <%= link_to "Sign up", new_customer_registration_path, class: "secondary button small" %>

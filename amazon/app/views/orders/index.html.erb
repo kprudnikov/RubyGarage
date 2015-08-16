@@ -1,0 +1,22 @@
+<div class="columns">
+  <h1>Orders</h1>
+  <ul>
+    <% @orders.each do |order| %>
+      <li>
+        <small>id: <%= order.id %></small>
+        <small>State: <%= Order::STATES[order.state.to_sym] %></small>
+        <% order.order_items.each do |item| %>
+          <div>
+            <strong><%= item.book.title %></strong>
+            <em> <%= item.book.author.firstname %> <%= item.book.author.lastname %></em>
+            <span>x<%= item.quantity %></span>
+          </div>
+        <% end %>
+        <p><%= order.delivery_service.title %> - <%= order.delivery_service.cost %></p>
+
+        <p>Total price: <strong><%= order.total_price %></strong></p>
+        <hr>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -1,0 +1,77 @@
+<%= render "checkout_navigation" %>
+
+<div class="columns">
+  <h3>Confirm</h3>
+  <div class="row">
+    <div class="medium-3 small-6 columns">
+      <h4>Shipping address</h4>
+
+      <%= link_to "(edit)", order_checkout_address_path %>
+
+      <p>
+        <%= @order.shipping_address.firstname %>
+        <%= @order.shipping_address.lastname %>
+      </p>
+      <p><%= @order.shipping_address.phone %></p>
+      <p><%= @order.shipping_address.address %></p>
+      <p><%= @order.shipping_address.zipcode %></p>
+      <p><%= @order.shipping_address.city %></p>
+      <p><%= @order.shipping_address.country.name %></p>
+    </div>
+    <div class="medium-3 small-6 columns">
+      <h4>Billing address</h4>
+      <%= link_to "(edit)", order_checkout_address_path %>
+
+      <p>
+        <%= @order.billing_address.firstname %>
+        <%= @order.billing_address.lastname %>
+      </p>
+      <p><%= @order.billing_address.phone %></p>
+      <p><%= @order.billing_address.address %></p>
+      <p><%= @order.billing_address.zipcode %></p>
+      <p><%= @order.billing_address.city %></p>
+      <p><%= @order.billing_address.country.name %></p>
+    </div>
+    <div class="medium-3 small-6 columns">
+      <h4>Shipment</h4>
+
+      <%= link_to "(edit)", order_delivery_service_path %>
+
+      <p><%= @order.delivery_service.title %></p>
+      <p><%= t("currency") + @order.delivery_service.cost.to_s %></p>
+    </div>
+    <div class="medium-3 small-6 columns">
+      <h4>Payment info</h4>
+
+      <%= link_to "(edit)", order_credit_card_path %>
+
+      <p><%= @card_number %></p>
+      <p><%= @order.credit_card.exp_month + "/" + @order.credit_card.exp_year %></p>
+    </div>
+  </div>
+  <hr>
+  <div class="small-12">
+    <h3>Books:</h3>
+    <% @order.order_items.each do |item| %>
+      <strong><%= item.book.title %></strong>
+      <em>
+        <%= item.book.author.firstname %>
+        <%= item.book.author.lastname %>
+      </em>
+      <span>x<%= item.quantity %> - </span>
+      <span><%= t("currency") + (item.book.price*item.quantity).to_s %></span>
+      <br>
+    <% end %>
+    <br>
+  </div>
+
+  <h3>Total: <%= t("currency") %><%= @order.total_price %></h3>
+  <small>Including:</small>
+  <div>
+    <small><strong>Shipping cost:</strong><span> <%= t("currency") %><%= @order.delivery_service.cost %></span></small>
+  </div>
+  <br>
+
+  <%= link_to "Place order", order_confirmation_path(@order), class: "button", method: :patch %>
+
+</div>

@@ -46,11 +46,11 @@
     <%= order_form.submit "Update", class: "button" %>
     <% end %>
   </ul>
-  <p>Total: <span><%= t(:currency) %></span> <span><%= @order.get_total_price %></span></p>
+  <p>Total: <span><%= t(:currency) %></span> <span><%= @order.total_price %></span></p>
   <div class="row collapse">
     <div class="small-12 columns">
       <%= link_to "Continue shopping", root_path, class: "small button" %>
-      <%= link_to "Checkout", root_path, class: "small button" %>
+      <%= link_to "Checkout", order_checkout_address_path(@order.id), class: "small button" %>
       <%= form_for @order, method: :delete do |f| %>
         <%= f.hidden_field :id %>
         <%= f.submit "Clear cart", class: "alert button" %>

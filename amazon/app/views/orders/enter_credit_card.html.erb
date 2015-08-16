@@ -1,0 +1,35 @@
+<%= render "checkout_navigation" %>
+
+<div class="columns">
+  <h3>Credit card</h3>
+  <div class="row">
+    <%= form_for @order, url: order_credit_card_path(@order), html: {class: "medium-6 small-12 columns"} do |f| %>
+      <%= fields_for :credit_card do |c| %>
+        <%= c.label :firstname %>
+        <%= c.text_field :firstname %>
+        <%= c.label :lastname %>
+        <%= c.text_field :lastname %>
+        <%= c.label :number %>
+        <%= c.text_field :number %>
+        <%= c.label :cvv %>
+        <%= c.text_field :cvv %>
+        <fieldset class="">
+          <legend>Expiration date:</legend>
+          <div class="row">
+            <div class="small-6 columns">
+              <%= c.label :exp_month %>
+              <%= c.select "exp_month", options_for_select(1..12) %>
+            </div>
+            <div class="small-6 columns">
+              <%= c.label :exp_year %>
+              <%= c.select "exp_year", options_for_select(Time.now.year..Time.now.year+10) %>
+              <%=  %>
+            </div>
+          </div>
+        </fieldset>
+      <% end %>
+      <br>
+      <%= f.submit "Save and continue", class: "button" %>
+    <% end %>
+  </div>
+</div>

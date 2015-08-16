@@ -29,6 +29,10 @@
     </div>
   <% end %>
   <br>
-  <%= f.file_field :cover %>
+  <!-- <div class="row"> -->
+    <div class="medium-3 small-12">
+      <%= f.file_field :cover, class: "panel" %>
+    </div>
+  <!-- </div> -->
   <%= f.submit "Submit", class: "button" %>
 <% end %>

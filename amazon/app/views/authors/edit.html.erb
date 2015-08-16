@@ -1,0 +1,7 @@
+<%= form_for @author, html: {class: "new_author columns"} do |f| %>
+  <%= f.text_field :firstname, placeholder: "First name" %>
+  <%= f.text_field :lastname, placeholder: "Last name" %>
+  <%= f.text_area :biography, placeholder: "Biography" %>
+  <br>
+  <%= f.submit class: "button" %>
+<% end %>

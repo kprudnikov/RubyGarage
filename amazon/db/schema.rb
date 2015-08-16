@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150810153210) do
+ActiveRecord::Schema.define(version: 20150815160311) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address"
@@ -69,12 +69,9 @@ ActiveRecord::Schema.define(version: 20150810153210) do
     t.string   "exp_year"
     t.string   "firstname"
     t.string   "lastname"
-    t.integer  "customer_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
-
-  add_index "credit_cards", ["customer_id"], name: "index_credit_cards_on_customer_id"
 
   create_table "customers", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -99,6 +96,11 @@ ActiveRecord::Schema.define(version: 20150810153210) do
   add_index "customers", ["email"], name: "index_customers_on_email", unique: true
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
 
+  create_table "delivery_services", force: :cascade do |t|
+    t.string  "title", default: "",  null: false
+    t.decimal "cost",  default: 0.0, null: false
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.float    "price"
     t.integer  "quantity",   default: 1, null: false
@@ -114,13 +116,14 @@ ActiveRecord::Schema.define(version: 20150810153210) do
   create_table "orders", force: :cascade do |t|
     t.float    "total_price"
     t.datetime "completed_date"
-    t.string   "state",            default: "in_progress", null: false
+    t.string   "state",               default: "in_progress", null: false
     t.integer  "customer_id"
     t.integer  "credit_card_id"
-    t.integer  "billing_address"
-    t.integer  "shipping_address"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.integer  "billing_address_id"
+    t.integer  "shipping_address_id"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "delivery_service_id"
   end
 
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"

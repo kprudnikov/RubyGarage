@@ -7,11 +7,13 @@
         </div>
         <h2><%= @book.title %></h2>
         <p>
-          <%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author) %>
+          <%= link_to @book.author.firstname + " " + @book.author.lastname, author_path(@book.author.id) %>
+          <%= @book.author.biography %>
         </p>
         <% if customer_signed_in? && current_customer.admin? %>
           <div>
             <%= link_to "Edit book", edit_book_path, class: "button" %>
+            <%= link_to "Edit author", edit_author_path(@book.author), class: "button" %>
           </div>
         <% end %>
       </div>

@@ -1,0 +1,75 @@
+<div class="columns">
+
+
+  <div class="row">
+
+    <%= render "checkout_navigation" %>
+
+    <%= form_for @order, url: order_checkout_address_path(@order) do |f| %>
+
+    <div class="medium-6 small-12 columns">
+      <fieldset>
+        <legend>Billing address</legend>
+
+        <%= fields_for :billing_address, @billing_address do |billing| %>
+
+        <%= billing.label "First name" %>
+        <%= billing.text_field :firstname, value: @customer.firstname %>
+
+        <%= billing.label "Last name" %>
+        <%= billing.text_field :lastname, value: @customer.lastname %>
+
+        <%= billing.label "Street address" %>
+        <%= billing.text_field :address %>
+
+        <%= billing.label "ZIP code" %>
+        <%= billing.text_field :zipcode %>
+
+        <%= billing.label :phone, "Phone number" %>
+        <%= billing.text_field :phone %>
+
+        <%= billing.label "City" %>
+        <%= billing.text_field :city %>
+
+        <%= billing.label "Country" %>
+        <%= select_tag "billing_address[country_id]", options_from_collection_for_select(@countries, "id", "name", @billing_address.country_id) %>
+
+        <% end %>
+      </fieldset>
+    </div>
+    <div class="medium-6 small-12 columns">
+      <fieldset>
+        <legend>Shipping address</legend>
+        <%= fields_for :shipping_address, @shipping_address do |shipping| %>
+
+        <%= shipping.label "First name" %>
+        <%= shipping.text_field :firstname, value: @customer.firstname %>
+
+        <%= shipping.label "Last name" %>
+        <%= shipping.text_field :lastname, value: @customer.lastname %>
+
+        <%= shipping.label "Street address" %>
+        <%= shipping.text_field :address %>
+
+        <%= shipping.label "ZIP code" %>
+        <%= shipping.text_field :zipcode %>
+
+        <%= shipping.label :phone, "Phone number" %>
+        <%= shipping.text_field :phone %>
+
+        <%= shipping.label "City" %>
+        <%= shipping.text_field :city %>
+
+        <%= shipping.label "Country" %>
+        <%= select_tag "shipping_address[country_id]", options_from_collection_for_select(@countries, "id", "name", @shipping_address.country_id) %>
+
+        <% end %>
+      </fieldset>
+    </div>
+    <div class="columns">
+      <br>
+      <%= f.submit "Save and continue", class: "button" %>
+    </div>
+    <% end %>
+  </div>
+</div>

@@ -1,4 +1,4 @@
 class CreditCard < ActiveRecord::Base
-  belongs_to :customer
-  validates :cvv, :exp_month, :exp_year, :firstname, :lastname, presence: true
+  validates_length_of :cvv, :exp_month, :exp_year, :firstname, :lastname, allow_blank: false
+  validates_length_of :number, allow_blank: false
 end

@@ -1,0 +1,14 @@
+<%= render "checkout_navigation" %>
+
+<div class="columns">
+  <h3>Choose delivery service</h3>
+  <%= form_for @order, url: order_delivery_service_path do |f| %>
+    <% @delivery_services.each do |ds| %>
+      <div>
+        <%= radio_button("order", "delivery_service_id", ds.id) %>
+        <%= f.label [:delivery_service_id, ds.id].join("_"), ds.title + " +" + t("currency") + ds.cost.to_s %>
+      </div>
+    <% end %>
+    <%= f.submit "Save and continue", class: 'button' %>
+  <% end %>
+</div>
