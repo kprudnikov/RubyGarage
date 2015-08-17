@@ -2,20 +2,6 @@ class OrderItemsController < ApplicationController
   before_action :authenticate_customer!
 
   def create
-
-
-    puts "@@@@@@@@@@@"
-    puts "@@@@@@@@@@@"
-
-    puts
-    puts "OI CONTROLLER"
-    puts create_order_item_params["book_id"].class
-    puts
-
-    puts "@@@@@@@@@@@"
-    puts "@@@@@@@@@@@"
-
-
     begin
       @order = current_customer.order_in_progress
       @order_item = @order.order_items.find_by(book_id: create_order_item_params["book_id"].to_i)
