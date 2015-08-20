@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(version: 20150815160311) do
     t.integer  "shipping_address_id"
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
-    t.integer  "delivery_service_id"
+    t.integer  "delivery_service_id", default: 1,             null: false
   end
 
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"
