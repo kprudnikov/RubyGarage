@@ -42,7 +42,7 @@ class Order < ActiveRecord::Base
     end
 
     event :cancel do
-      transitions from: [:in_queue, :in_delivery], to: :canceled
+      transitions from: [:in_progress, :in_queue, :in_delivery], to: :canceled
     end
   end
 
@@ -60,6 +60,7 @@ class Order < ActiveRecord::Base
 
   def deliver_order
     self.completed_date = Time.now
+    self.save
   end
 
   def calculate_total_price
@@ -67,6 +68,20 @@ class Order < ActiveRecord::Base
     if self.delivery_service
       self.total_price += self.delivery_service.cost
     end
+  end
+
+  def total_number_of_books
+    self.order_items.reduce(0){|sum, item| sum + item.quantity}
+  end
+
+  def build_billing_address
+    @customer = self.customer
+    billing_address = self.billing_address || (@customer.billing_address ? @customer.billing_address.dup : Address.new)
+  end
+
+  def build_shipping_address
+    @customer = self.customer
+    shipping_address = self.shipping_address || (@customer.shipping_address ? @customer.shipping_address.dup : Address.new)
   end
 
 end

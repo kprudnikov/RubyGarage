@@ -23,7 +23,7 @@
         <% if customer_signed_in? %>
             <%= link_to order_path(current_customer.order_in_progress) , class: "secondary button", title: "Current order" do %>
               <i class="fi-shopping-cart"></i>
-              <span>: <%= current_customer.order_in_progress.books.length %></span>
+              <span>: <%= current_customer.order_in_progress.total_number_of_books %></span>
             <% end %>
           <%= link_to edit_customer_registration_path, class: "secondary button", title: "Settings" do %>
             <i class="fi-widget"></i>

@@ -1,0 +1,16 @@
+save addresses on upd
++ number of books in cart
+
+Order index where - вынести в scope
+  show - calculate_t_p вынести в условие
+update -
+
+  checkout addr - build_bill_addr? перенести в order?
+set_addr - проверить update и валидацию
+
+  checkout - в отдельный контроллер
+
+  перенести в модели?
+
+прикрутить facebook
+  чинить AuthorsController - там ад (set_author)

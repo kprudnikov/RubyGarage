@@ -1,9 +1,5 @@
 <% if customer_signed_in? && current_customer.admin? %>
-  <menu class="admin-menu columns">
-    <%= link_to "Add book", new_book_path %> <span style="color: #008CBA"> | </span>
-    <%= link_to "Add author", new_author_path %> <span style="color: #008CBA"> | </span>
-    <%= link_to "Add category", new_category_path %>
-  </menu>
+  <%= render "books/admin_panel" %>
 <% end %>
 <div class="medium-10 small-12 columns">
   <ul class="books-list row">

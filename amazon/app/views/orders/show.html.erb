@@ -31,11 +31,9 @@
               <p><%= t("currency") %> <%= item.book.price %> </p>
             </div>
             <div class="small-2 columns">
-              <%= order_form.fields_for :order_items do |oi| %>
-                <%= oi.fields_for item.id.to_s do |item_form| %>
-                  <%= item_form.number_field :quantity, value: item.quantity, min: 1 %>
-                  <%= item_form.hidden_field :book_id, value: item.book.id %>
-                <% end %>
+              <%= order_form.fields_for "order_items[]", [] do |oi| %>
+                  <%= oi.number_field :quantity, value: item.quantity, min: 1 %>
+                  <%= oi.hidden_field :id, value: item.id %>
               <% end %>
             </div>
           </div>

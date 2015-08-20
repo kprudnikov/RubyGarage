@@ -13,16 +13,6 @@
           </div>
         <% end %>
         <p><%= order.delivery_service.title %> - <%= order.delivery_service.cost %></p>
-        <% if current_customer.admin? %>
-          <%= form_for order, url: order_state_path(order), html: {class: "row"} do |f| %>
-            <div class="small-6 columns">
-              <%= f.select :state, options_for_select(Order::STATES.keys.map{|key| [Order::STATES[key], key]}, order.state) %>
-            </div>
-            <div class="small-6 columns">
-              <%= f.submit "Update state", class: "tiny button" %>
-            </div>
-          <% end %>
-        <% end %>
         <p>Total price: <strong><%= order.total_price %></strong></p>
         <hr>
       </li>

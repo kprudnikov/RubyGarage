@@ -29,10 +29,6 @@ class CategoriesController < ApplicationController
     render template: "books/index"
   end
 
-  # def index
-  #   @categories = Category.all
-  # end
-
 private
 
   def create_category_params

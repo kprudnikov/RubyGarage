@@ -1,0 +1,22 @@
+<div class="columns">
+  <h2>Manage orders</h2>
+  <ul>
+  <% @orders.each do |order| %>
+    <li>
+      id: <%= order.id %>
+      price: <%= order.total_price %>
+      Customer: <%= order.customer.firstname %> <%= order.customer.lastname %>
+      <%= link_to "Edit", order_path(order) %>
+      <%= form_for order, url: order_state_path(order), html: {class: "row"} do |f| %>
+        <div class="small-6 columns">
+          <%= f.select :state, options_for_select(Order::STATES.keys.map{|key| [Order::STATES[key], key]}, order.state) %>
+        </div>
+        <div class="small-6 columns">
+          <%= f.submit "Update state", class: "tiny button" %>
+        </div>
+      <% end %>
+
+    </li>
+  <% end %>
+  </ul>
+</div>
