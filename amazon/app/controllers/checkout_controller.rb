@@ -9,14 +9,9 @@ class CheckoutController < ApplicationController
   end
 
   def set_addresses
-    if !@order.billing_address
-      @order.billing_address = Address.new
-    end
-    if !@order.shipping_address
-      @order.shipping_address = Address.new
-    end
+      @order.billing_address ||= Address.new
+      @order.shipping_address ||= Address.new
 
-# here we first update and only then check if it's valid
     if @order.billing_address.update(billing_address_params) &&
       @order.shipping_address.update(shipping_address_params)
 
@@ -60,7 +55,6 @@ class CheckoutController < ApplicationController
   end
 
   def verify_data
-
     if !@order.billing_address ||
       !@order.billing_address.valid? ||
       !@order.billing_address ||
@@ -90,7 +84,6 @@ class CheckoutController < ApplicationController
   end
 
   def confirm
-
     if  @order.billing_address.valid? &&
         @order.shipping_address.valid? &&
         @order.delivery_service.valid? &&
