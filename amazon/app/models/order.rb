@@ -76,12 +76,14 @@ class Order < ActiveRecord::Base
 
   def build_billing_address
     @customer = self.customer
-    billing_address = self.billing_address || (@customer.billing_address ? @customer.billing_address.dup : Address.new)
+    self.billing_address || (@customer.billing_address ? @customer.billing_address.dup : Address.new)
+    # self.billing_address.country_id ||= 1
   end
 
   def build_shipping_address
     @customer = self.customer
-    shipping_address = self.shipping_address || (@customer.shipping_address ? @customer.shipping_address.dup : Address.new)
+    self.shipping_address || (@customer.shipping_address ? @customer.shipping_address.dup : Address.new)
+    # self.shipping_address.country_id ||= 1
   end
 
 end

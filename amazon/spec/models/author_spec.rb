@@ -10,6 +10,4 @@ describe Author do
     books.push(FactoryGirl.create :book, author: author)
     expect(author.books.length).to eq(books.length)
   end
-
-
 end

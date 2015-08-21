@@ -11,13 +11,13 @@
       <fieldset>
         <legend>Billing address</legend>
 
-        <%= fields_for :billing_address, @billing_address do |billing| %>
+        <%= fields_for :billing_address, @order.billing_address do |billing| %>
 
         <%= billing.label "First name" %>
-        <%= billing.text_field :firstname, value: @customer.firstname %>
+        <%= billing.text_field :firstname %>
 
         <%= billing.label "Last name" %>
-        <%= billing.text_field :lastname, value: @customer.lastname %>
+        <%= billing.text_field :lastname %>
 
         <%= billing.label "Street address" %>
         <%= billing.text_field :address %>
@@ -32,7 +32,7 @@
         <%= billing.text_field :city %>
 
         <%= billing.label "Country" %>
-        <%= select_tag "billing_address[country_id]", options_from_collection_for_select(@countries, "id", "name", @billing_address.country_id) %>
+        <%= select_tag "billing_address[country_id]", options_from_collection_for_select(@countries, "id", "name", @order.billing_address.country_id) %>
 
         <% end %>
       </fieldset>
@@ -40,13 +40,13 @@
     <div class="medium-6 small-12 columns">
       <fieldset>
         <legend>Shipping address</legend>
-        <%= fields_for :shipping_address, @shipping_address do |shipping| %>
+        <%= fields_for :shipping_address, @order.shipping_address do |shipping| %>
 
         <%= shipping.label "First name" %>
-        <%= shipping.text_field :firstname, value: @customer.firstname %>
+        <%= shipping.text_field :firstname %>
 
         <%= shipping.label "Last name" %>
-        <%= shipping.text_field :lastname, value: @customer.lastname %>
+        <%= shipping.text_field :lastname %>
 
         <%= shipping.label "Street address" %>
         <%= shipping.text_field :address %>
@@ -61,7 +61,7 @@
         <%= shipping.text_field :city %>
 
         <%= shipping.label "Country" %>
-        <%= select_tag "shipping_address[country_id]", options_from_collection_for_select(@countries, "id", "name", @shipping_address.country_id) %>
+        <%= select_tag "shipping_address[country_id]", options_from_collection_for_select(@countries, "id", "name", @order.shipping_address.country_id) %>
 
         <% end %>
       </fieldset>

@@ -14,3 +14,9 @@ set_addr - проверить update и валидацию
 
 прикрутить facebook
   чинить AuthorsController - там ад (set_author)
+
+проверить цену order_item
+calculate_total_price вынести в хуки
+set_state - вынести логику в метод ордера (передавать параметры)
+get_current_order - переписать.
+смотреть scaffold

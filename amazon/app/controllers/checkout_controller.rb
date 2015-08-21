@@ -3,23 +3,36 @@ class CheckoutController < ApplicationController
 
   def addresses
     @customer = current_customer
-    @billing_address = @order.build_billing_address
-    @shipping_address = @order.build_shipping_address
+    @order.billing_address = @order.build_billing_address
+    @order.shipping_address = @order.build_shipping_address
     @countries = Country.all
   end
 
   def set_addresses
-      @order.billing_address ||= Address.new
-      @order.shipping_address ||= Address.new
 
-    if @order.billing_address.update(billing_address_params) &&
-      @order.shipping_address.update(shipping_address_params)
+      if @order.billing_address
+        @order.billing_address.update(billing_address_params)
+      else
+        @order.billing_address = Address.new(billing_address_params)
+      end
 
-      flash[:success] = "Addresses saved"
-      redirect_to order_delivery_service_path(@order)
-    else
-      flash[:alert] = "Please fill in all fields"
-      redirect_to request.referrer
+      if @order.shipping_address
+        @order.shipping_address.update(shipping_address_params)
+      else
+        @order.shipping_address = Address.new(shipping_address_params)
+      end
+
+      @countries = Country.all
+
+    respond_to do |format|
+      if @order.save && @order.billing_address.valid? && @order.shipping_address.valid?
+
+        flash[:success] = "Addresses saved"
+        format.html {redirect_to order_delivery_service_path(@order)}
+      else
+        flash.now[:alert] = "Please fill in all fields"
+        format.html {render :addresses}
+      end
     end
   end
 
