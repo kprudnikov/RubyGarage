@@ -55,8 +55,8 @@ class OrdersController < ApplicationController
 
     begin
       case params[:order][:state]
-      when "in_progress"
-        @order.edit
+      # when "in_progress"
+      #   @order.edit
       when "in_queue"
         @order.place
       when "in_delivery"

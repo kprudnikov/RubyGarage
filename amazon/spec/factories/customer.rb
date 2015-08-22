@@ -6,7 +6,12 @@ FactoryGirl.define do
     admin false
     billing_address_id nil
     shipping_address_id nil
-    encrypted_password "testtest"
+    password "testtest"
+    password_confirmation "testtest"
+
+    factory :admin do
+      admin true
+    end
 
   end
 end

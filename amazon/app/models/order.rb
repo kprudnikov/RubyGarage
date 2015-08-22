@@ -2,11 +2,13 @@ class Order < ActiveRecord::Base
   belongs_to :billing_address, class_name: "Address", dependent: :destroy
   belongs_to :shipping_address, class_name: "Address", dependent: :destroy
   belongs_to :customer
-  has_many :order_items, dependent: :destroy
-  has_many :books, through: :order_items
-  validates :customer, presence: true
   belongs_to :delivery_service
   belongs_to :credit_card, dependent: :destroy
+
+  has_many :order_items, dependent: :destroy
+  has_many :books, through: :order_items
+
+  validates :customer, presence: true
 
   include AASM
 
@@ -25,9 +27,9 @@ class Order < ActiveRecord::Base
     state :delivered
     state :canceled
 
-    event :edit do
-      transitions from: :in_queue, to: :in_progress
-    end
+    # event :edit do
+    #   transitions from: :in_queue, to: :in_progress
+    # end
 
     event :place do
       transitions from: :in_progress, to: :in_queue
@@ -60,7 +62,7 @@ class Order < ActiveRecord::Base
 
   def deliver_order
     self.completed_date = Time.now
-    self.save
+    # self.save
   end
 
   def calculate_total_price
