@@ -7,22 +7,11 @@ class OrdersController < ApplicationController
     @orders = current_customer.orders.where("state != 'in_progress'")
   end
 
-  def show
-    begin
-      @order.calculate_total_price
-    rescue
-      flash[:alert] = "Order not found"
-      redirect_to root_path
-    end
-  end
-
   def update
 
     update_order_items_params.each do |item|
       @order.order_items.update(item[:id], {quantity: item[:quantity]})
     end
-
-    @order.calculate_total_price
 
     if @order.save
       flash[:success] = "Order updated"
@@ -33,13 +22,11 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    if @order.destroy
-      flash[:success] = "Cart is cleared"
-      redirect_to root_path
-    else
-      flash[:success] = "Error"
-      redirect_to order_path @order
+    if @order.in_progress?
+      @order.clear
     end
+    flash[:success] = "Cart is cleared"
+    redirect_to root_path
   end
 
 # Admin states handle
@@ -55,8 +42,6 @@ class OrdersController < ApplicationController
 
     begin
       case params[:order][:state]
-      # when "in_progress"
-      #   @order.edit
       when "in_queue"
         @order.place
       when "in_delivery"

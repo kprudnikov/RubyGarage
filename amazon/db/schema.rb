@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150815160311) do
+ActiveRecord::Schema.define(version: 20150822131045) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address"
@@ -64,13 +64,13 @@ ActiveRecord::Schema.define(version: 20150815160311) do
 
   create_table "credit_cards", force: :cascade do |t|
     t.string   "number"
-    t.string   "cvv"
-    t.string   "exp_month"
-    t.string   "exp_year"
+    t.string   "cvv",        default: "", null: false
+    t.integer  "exp_month"
+    t.integer  "exp_year"
     t.string   "firstname"
     t.string   "lastname"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "customers", force: :cascade do |t|

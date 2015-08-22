@@ -27,11 +27,7 @@ class Order < ActiveRecord::Base
     state :delivered
     state :canceled
 
-    # event :edit do
-    #   transitions from: :in_queue, to: :in_progress
-    # end
-
-    event :place do
+    event :place, after: :create_empty_order do
       transitions from: :in_progress, to: :in_queue
     end
 
@@ -43,13 +39,9 @@ class Order < ActiveRecord::Base
       transitions from: :in_delivery, to: :delivered
     end
 
-    event :cancel do
+    event :cancel, after: :create_empty_order do
       transitions from: [:in_progress, :in_queue, :in_delivery], to: :canceled
     end
-  end
-
-  def add_book(params)
-    self.order_items << OrderItem.new(params)
   end
 
   def in_progress?
@@ -62,7 +54,6 @@ class Order < ActiveRecord::Base
 
   def deliver_order
     self.completed_date = Time.now
-    # self.save
   end
 
   def calculate_total_price
@@ -70,6 +61,7 @@ class Order < ActiveRecord::Base
     if self.delivery_service
       self.total_price += self.delivery_service.cost
     end
+    self.save
   end
 
   def total_number_of_books
@@ -79,13 +71,20 @@ class Order < ActiveRecord::Base
   def build_billing_address
     @customer = self.customer
     self.billing_address || (@customer.billing_address ? @customer.billing_address.dup : Address.new)
-    # self.billing_address.country_id ||= 1
   end
 
   def build_shipping_address
     @customer = self.customer
     self.shipping_address || (@customer.shipping_address ? @customer.shipping_address.dup : Address.new)
-    # self.shipping_address.country_id ||= 1
+  end
+
+  def create_empty_order
+    customer = self.customer
+    customer.create_empty_order if customer
+  end
+
+  def clear
+    self.order_items.each{|item| item.destroy}
   end
 
 end

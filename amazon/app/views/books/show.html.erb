@@ -63,6 +63,7 @@
     </div>
     <% end %>
   <% end %>
+  <!-- should this logic be here? -->
   <% if customer_signed_in? && !((current_customer.ratings & @book.ratings).length > 0) %>
     <%= form_for @rating, html: {class: "panel"} do |f| %>
       <p>Rate this book:</p>

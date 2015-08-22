@@ -8,10 +8,17 @@ FactoryGirl.define do
     shipping_address_id nil
     password "testtest"
     password_confirmation "testtest"
-
-    factory :admin do
-      admin true
-    end
-
   end
+
+  factory :admin, class: "Customer" do
+    email Faker::Internet.email
+    firstname Faker::Name.first_name
+    lastname Faker::Name.last_name
+    admin true
+    billing_address_id nil
+    shipping_address_id nil
+    password "testtest"
+    password_confirmation "testtest"
+  end
+
 end
