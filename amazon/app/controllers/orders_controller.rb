@@ -9,6 +9,7 @@ class OrdersController < ApplicationController
 
   def update
 
+    # this part is impossible to test
     update_order_items_params.each do |item|
       @order.order_items.update(item[:id], {quantity: item[:quantity]})
     end
@@ -84,7 +85,7 @@ private
 
   def get_current_order
     @order = Order.find(params[:id])
-    if !current_customer.admin? && (@order.state != "in_progress" || !current_customer.orders.find(@order.id))
+    if !current_customer.admin? && (@order.state != "in_progress" || !(@order.customer_id == current_customer.id))
       flash[:alert] = "Access denied"
       redirect_to root_path
     end

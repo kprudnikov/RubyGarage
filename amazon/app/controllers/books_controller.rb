@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
-  before_action :authenticate_customer!, only: [:new, :create, :edit, :update]
+  before_action :authenticate_customer!, only: [:new, :create, :edit, :update, :delete]
   before_action :format_authors_and_categories, only: [:new, :edit]
+  before_action :check_admin_access, only: [:new, :create, :edit, :update, :delete]
 
   def index
     @books = Book.all
@@ -28,7 +29,7 @@ class BooksController < ApplicationController
 
   def update
     @book = Book.find(params[:id])
-    @book.update!(book_params)
+    @book.update(book_params)
     redirect_to book_path @book
   end
 
@@ -41,6 +42,13 @@ private
   def format_authors_and_categories
     @formatted_categories = Category.all.collect{|category| [category.title, category.id]}
     @formatted_authors = Author.all.collect{|author| [author.firstname+" "+author.lastname, author.id]}
+  end
+
+  def check_admin_access
+    if !current_customer.admin?
+      flash[:alert] = "Access denied"
+      redirect_to root_path
+    end
   end
 
 end
