@@ -1,4 +1,6 @@
 class CheckoutController < ApplicationController
+  
+  before_action :authenticate_customer!
   before_action :get_current_order
 
   def addresses
@@ -10,19 +12,13 @@ class CheckoutController < ApplicationController
 
   def set_addresses
 
-      if @order.billing_address
-        @order.billing_address.update(billing_address_params)
-      else
-        @order.billing_address = Address.new(billing_address_params)
-      end
+    @order.billing_address = Address.new(billing_address_params) unless @order.billing_address
+    @order.billing_address.update(billing_address_params)
 
-      if @order.shipping_address
-        @order.shipping_address.update(shipping_address_params)
-      else
-        @order.shipping_address = Address.new(shipping_address_params)
-      end
+    @order.shipping_address = Address.new(shipping_address_params) unless @order.shipping_address
+    @order.shipping_address.update(shipping_address_params)
 
-      @countries = Country.all
+    @countries = Country.all
 
     respond_to do |format|
       if @order.save && @order.billing_address.valid? && @order.shipping_address.valid?
@@ -116,6 +112,7 @@ class CheckoutController < ApplicationController
 private
 
   def get_current_order
+
     @order = Order.find(params[:order_id])
 
     if !current_customer.admin? && (@order.state != "in_progress" || !current_customer.orders.find(@order.id))
