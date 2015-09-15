@@ -95,7 +95,7 @@ describe BooksController do
 
       it "redirects to sign_in page" do
         expect(response).to redirect_to(new_customer_session_path)
-      end 
+      end
     end
 
     describe "with registered customer" do
@@ -130,7 +130,7 @@ describe BooksController do
     before do
       allow(Book).to receive(:find).and_return(book)
       allow(book).to receive(:update)
-    end    
+    end
 
     describe "with non registered customer" do
       before {patch :update, id: book.id, book: attributes_for(:book)}

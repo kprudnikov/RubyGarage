@@ -46,7 +46,7 @@
       <%= link_to "(edit)", order_credit_card_path %>
 
       <p><%= @card_number %></p>
-      <p><%= @order.credit_card.exp_month + "/" + @order.credit_card.exp_year %></p>
+      <p><%= @order.credit_card.exp_month.to_s + "/" + @order.credit_card.exp_year.to_s %></p>
     </div>
   </div>
   <hr>

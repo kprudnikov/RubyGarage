@@ -85,9 +85,13 @@ private
 
   def get_current_order
     @order = Order.find(params[:id])
-    if !current_customer.admin? && (@order.state != "in_progress" || !(@order.customer_id == current_customer.id))
+    if has_access?
       flash[:alert] = "Access denied"
       redirect_to root_path
     end
+  end
+
+  def has_access?
+    !current_customer.admin? && (@order.state != "in_progress" || !(@order.customer_id == current_customer.id))
   end
 end
