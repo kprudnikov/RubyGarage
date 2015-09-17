@@ -14,7 +14,8 @@ describe Order, type: :model do
   end
 
   it "calculates total price on update", :focus do
-    expect(order.total_price).to eq(oi.price*oi.quantity+order.delivery_service.cost)
+    # should be BigDecimal instead of Float here
+    expect(order.total_price.round(2)).to eq(oi.price*oi.quantity+order.delivery_service.cost)
   end
 
   it "removes all order items when destroyed" do
